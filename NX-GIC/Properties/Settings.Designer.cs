@@ -37,13 +37,25 @@ namespace NX_GIC.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("hotshotz79/NX-Custom-Game-Icons;sodasoba1/NX-Custom-Game-Icons-Horizontal")]
+        [global::System.Configuration.DefaultSettingValueAttribute("hotshotz79/NX-Custom-Game-Icons;sodasoba1/NSW-Custom-Game-Icons")]
         public string GitHubs {
             get {
                 return ((string)(this["GitHubs"]));
             }
             set {
                 this["GitHubs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1.0")]
+        public decimal ZoomLevel {
+            get {
+                return ((decimal)(this["ZoomLevel"]));
+            }
+            set {
+                this["ZoomLevel"] = value;
             }
         }
     }

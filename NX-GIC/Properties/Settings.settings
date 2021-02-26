@@ -6,7 +6,10 @@
       <Value Profile="(Default)">192.168.0.0</Value>
     </Setting>
     <Setting Name="GitHubs" Type="System.String" Scope="User">
-      <Value Profile="(Default)">hotshotz79/NX-Custom-Game-Icons;sodasoba1/NX-Custom-Game-Icons-Horizontal</Value>
+      <Value Profile="(Default)">hotshotz79/NX-Custom-Game-Icons;sodasoba1/NSW-Custom-Game-Icons</Value>
+    </Setting>
+    <Setting Name="ZoomLevel" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">1.0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

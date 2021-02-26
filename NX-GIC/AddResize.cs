@@ -19,6 +19,7 @@ namespace NX_GIC
     public partial class AddResize : Form
     {
         public Image saveImage = new Bitmap(256, 256);
+        public string iconText = "";
 
         public AddResize()
         {
@@ -140,7 +141,7 @@ namespace NX_GIC
             //Save the preview under Output/Queue as well as copy under Main
             picPreview.Image.Save(pathOut + "icon.jpg", codec, parameters);
             picPreview.Image.Save(pathMain + saveAs, codec, parameters);
-
+            iconText = txtName.Text;
             //ToDo: Check if icon was under 120KB
             //If so, retry with Encoder.Quality @ 95L
         }
@@ -182,10 +183,10 @@ namespace NX_GIC
             else
             {
                 Cursor.Current = Cursors.WaitCursor;
-                //JSON path
+                
                 WebClient webClient = new WebClient();
                 ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
-
+                //Json Source: github.com/blawar/titledb
                 string jsonResult = webClient.DownloadString("https://raw.githubusercontent.com/blawar/titledb/master/titles.US.en.json");
 
                 int resultCount = 0;

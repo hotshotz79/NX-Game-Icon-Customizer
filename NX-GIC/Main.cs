@@ -24,6 +24,7 @@ namespace NX_GIC
         string subPath = "";
         string iconFolder = "";
         bool moveFiles = false;
+        decimal zoomLvl = Properties.Settings.Default.ZoomLevel;
 
         public Main()
         {
@@ -159,31 +160,30 @@ namespace NX_GIC
 
         private void dgvFolders_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            DisplayIcons();
+            DisplayIcons(zoomLvl);
         }
 
         //Populate all available icons in the grid
-        public void DisplayIcons()
+        public void DisplayIcons(decimal zoom)
         {
             //Change Image Layout depending on folder selection
             DataGridViewImageColumn imgCol = (DataGridViewImageColumn)dgvIconList.Columns[0];
+            dgvIconList.RowTemplate.Height = Convert.ToInt32(256 * zoom);
+
             if (cmbSubfolders.SelectedItem.ToString() == "Vertical")
             {
-                dgvIconList.RowTemplate.Height = 256;
                 imgCol.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                imgCol.Width = 155;
+                imgCol.Width = Convert.ToInt32(155 * zoom);
             }
             else if (cmbSubfolders.SelectedItem.ToString() == "Horizontal")
             {
-                dgvIconList.RowTemplate.Height = 256;
                 imgCol.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                imgCol.Width = 397;
+                imgCol.Width = Convert.ToInt32(397 * zoom);
             }
             else
             {
-                dgvIconList.RowTemplate.Height = 256;
                 imgCol.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                imgCol.Width = 256;
+                imgCol.Width = Convert.ToInt32(256 * zoom);
             }
 
             iconFolder = subPath + "\\" + dgvFolders.SelectedCells[0].Value;
@@ -313,15 +313,40 @@ namespace NX_GIC
         private void btnAddResize_Click(object sender, EventArgs e)
         {
             AddResize frmAdd = new AddResize();
-            frmAdd.Show();
-            //What if user did not Scan; below function would fail
-            //GenerateSubFolders();
+            if (frmAdd.ShowDialog(this) == DialogResult.OK)
+            {
+                dgvQueue.Rows.Add(frmAdd.iconText);
+                if (cmbSubfolders.SelectedIndex != -1)
+                    GenerateSubFolders();
+            }
         }
 
         private void settingsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Settings frmSettings = new Settings();
             frmSettings.Show();
+        }
+
+        private void btnZoomOut_Click(object sender, EventArgs e)
+        {
+            if (dgvIconList.DataSource != null)
+            {
+                zoomLvl -= 0.25m;
+                Properties.Settings.Default.ZoomLevel = zoomLvl;
+                Properties.Settings.Default.Save();
+                DisplayIcons(zoomLvl);
+            }
+        }
+
+        private void btnZoomIn_Click(object sender, EventArgs e)
+        {
+            if (dgvIconList.DataSource != null)
+            {
+                zoomLvl += 0.25m;
+                Properties.Settings.Default.ZoomLevel = zoomLvl;
+                Properties.Settings.Default.Save();
+                DisplayIcons(zoomLvl);
+            }
         }
     }
 }

@@ -39,6 +39,8 @@ namespace NX_GIC
             this.label2 = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.ckbSysTweak = new System.Windows.Forms.CheckBox();
+            this.radMtp = new System.Windows.Forms.RadioButton();
+            this.cmbDevice = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -65,7 +67,7 @@ namespace NX_GIC
             // txtIP
             // 
             this.txtIP.Enabled = false;
-            this.txtIP.Location = new System.Drawing.Point(208, 122);
+            this.txtIP.Location = new System.Drawing.Point(208, 164);
             this.txtIP.Margin = new System.Windows.Forms.Padding(4);
             this.txtIP.Name = "txtIP";
             this.txtIP.Size = new System.Drawing.Size(242, 29);
@@ -78,7 +80,7 @@ namespace NX_GIC
             // 
             this.ckbDelTemp.AutoSize = true;
             this.ckbDelTemp.Enabled = false;
-            this.ckbDelTemp.Location = new System.Drawing.Point(33, 171);
+            this.ckbDelTemp.Location = new System.Drawing.Point(33, 213);
             this.ckbDelTemp.Margin = new System.Windows.Forms.Padding(4);
             this.ckbDelTemp.Name = "ckbDelTemp";
             this.ckbDelTemp.Size = new System.Drawing.Size(344, 29);
@@ -91,28 +93,28 @@ namespace NX_GIC
             this.radUsb.AutoSize = true;
             this.radUsb.Location = new System.Drawing.Point(33, 75);
             this.radUsb.Name = "radUsb";
-            this.radUsb.Size = new System.Drawing.Size(137, 29);
+            this.radUsb.Size = new System.Drawing.Size(78, 29);
             this.radUsb.TabIndex = 9;
             this.radUsb.TabStop = true;
-            this.radUsb.Text = "USB / MTP";
+            this.radUsb.Text = "USB";
             this.radUsb.UseVisualStyleBackColor = true;
             this.radUsb.CheckedChanged += new System.EventHandler(this.radUsb_CheckedChanged);
             // 
             // radFtp
             // 
             this.radFtp.AutoSize = true;
-            this.radFtp.Location = new System.Drawing.Point(33, 123);
+            this.radFtp.Location = new System.Drawing.Point(33, 165);
             this.radFtp.Name = "radFtp";
-            this.radFtp.Size = new System.Drawing.Size(162, 29);
+            this.radFtp.Size = new System.Drawing.Size(75, 29);
             this.radFtp.TabIndex = 10;
             this.radFtp.TabStop = true;
-            this.radFtp.Text = "FTP / Network";
+            this.radFtp.Text = "FTP";
             this.radFtp.UseVisualStyleBackColor = true;
             this.radFtp.CheckedChanged += new System.EventHandler(this.radFtp_CheckedChanged);
             // 
             // btnUpload
             // 
-            this.btnUpload.Location = new System.Drawing.Point(339, 263);
+            this.btnUpload.Location = new System.Drawing.Point(339, 305);
             this.btnUpload.Name = "btnUpload";
             this.btnUpload.Size = new System.Drawing.Size(111, 47);
             this.btnUpload.TabIndex = 11;
@@ -123,7 +125,7 @@ namespace NX_GIC
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(28, 274);
+            this.label2.Location = new System.Drawing.Point(28, 316);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(74, 25);
             this.label2.TabIndex = 12;
@@ -133,7 +135,7 @@ namespace NX_GIC
             // 
             this.lblStatus.AutoSize = true;
             this.lblStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.lblStatus.Location = new System.Drawing.Point(118, 274);
+            this.lblStatus.Location = new System.Drawing.Point(118, 316);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(118, 25);
             this.lblStatus.TabIndex = 13;
@@ -143,7 +145,7 @@ namespace NX_GIC
             // 
             this.ckbSysTweak.AutoSize = true;
             this.ckbSysTweak.Enabled = false;
-            this.ckbSysTweak.Location = new System.Drawing.Point(33, 223);
+            this.ckbSysTweak.Location = new System.Drawing.Point(33, 265);
             this.ckbSysTweak.Margin = new System.Windows.Forms.Padding(4);
             this.ckbSysTweak.Name = "ckbSysTweak";
             this.ckbSysTweak.Size = new System.Drawing.Size(442, 29);
@@ -152,11 +154,36 @@ namespace NX_GIC
             this.ckbSysTweak.UseVisualStyleBackColor = true;
             this.ckbSysTweak.CheckedChanged += new System.EventHandler(this.ckbSysTweak_CheckedChanged);
             // 
+            // radMtp
+            // 
+            this.radMtp.AutoSize = true;
+            this.radMtp.Location = new System.Drawing.Point(33, 119);
+            this.radMtp.Name = "radMtp";
+            this.radMtp.Size = new System.Drawing.Size(80, 29);
+            this.radMtp.TabIndex = 16;
+            this.radMtp.TabStop = true;
+            this.radMtp.Text = "MTP";
+            this.radMtp.UseVisualStyleBackColor = true;
+            this.radMtp.CheckedChanged += new System.EventHandler(this.radMtp_CheckedChanged);
+            // 
+            // cmbDevice
+            // 
+            this.cmbDevice.Enabled = false;
+            this.cmbDevice.FormattingEnabled = true;
+            this.cmbDevice.Location = new System.Drawing.Point(208, 118);
+            this.cmbDevice.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbDevice.Name = "cmbDevice";
+            this.cmbDevice.Size = new System.Drawing.Size(242, 32);
+            this.cmbDevice.TabIndex = 15;
+            this.cmbDevice.Text = "Select device";
+            // 
             // Transfer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(492, 336);
+            this.ClientSize = new System.Drawing.Size(492, 367);
+            this.Controls.Add(this.radMtp);
+            this.Controls.Add(this.cmbDevice);
             this.Controls.Add(this.ckbSysTweak);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.label2);
@@ -190,5 +217,7 @@ namespace NX_GIC
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.CheckBox ckbSysTweak;
+        private System.Windows.Forms.RadioButton radMtp;
+        private System.Windows.Forms.ComboBox cmbDevice;
     }
 }

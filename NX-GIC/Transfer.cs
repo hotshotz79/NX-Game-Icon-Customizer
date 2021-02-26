@@ -9,12 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Net;
+using MediaDevices;
+using WinSCP;
 
 namespace NX_GIC
 {
     public partial class Transfer : Form
     {
         bool statusSuccess = true;
+        string sourcePath = Directory.GetCurrentDirectory() + @"\Output\";
         public Transfer()
         {
             InitializeComponent();
@@ -25,6 +28,11 @@ namespace NX_GIC
             {
                 if (drive.Name != "C:\\")
                     cmbDrives.Items.Add(drive.Name + " - (" + drive.VolumeLabel + ")");
+            }
+
+            foreach (var devices in MediaDevice.GetDevices())
+            {
+                cmbDevice.Items.Add(devices.Description);
             }
         }
 
@@ -39,7 +47,7 @@ namespace NX_GIC
             //Check if the path exists
             if (!Directory.Exists(pathToCopy))
             { 
-                MessageBox.Show(pathToCopy + " does not exist. \n\nMake sure your Switch is connected via USB and MTP mode (or any " +
+                MessageBox.Show(pathToCopy + " does not exist. \n\nMake sure your Switch is connected via USB mode (or any " +
                     "other method to view the drive) is enabled.",
                     "Path Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 statusSuccess = false;
@@ -47,22 +55,63 @@ namespace NX_GIC
             else
             {
                 //Transfer
+                File.Copy(sourcePath, pathToCopy, true);
                 statusSuccess = true;
+            }
+        }
+
+        private void mtpTransfer()
+        {
+            var devices = MediaDevice.GetDevices();
+            string destPath = @"\SdCard\atmosphere\contents";
+            using (var device = devices.First(d => d.Description == cmbDevice.SelectedItem.ToString()))
+            {
+                device.Connect();
+                device.UploadFolder(sourcePath, destPath, true);
+                device.Disconnect();
             }
         }
 
         private void ftpTransfer()
         {
-            //Transfer via IP
-            string sourcePath = Directory.GetCurrentDirectory() + @"\Output\";
-            // root path must exist
-            string url = @"ftp://" + txtIP.Text + @":5000/atmosphere/contents/";
-            NetworkCredential credentials = new NetworkCredential("", "");
+            //re-coded to use winSCP
+            using (Session session = new Session())
+            {
+                try
+                {
+                    Console.WriteLine(Properties.Settings.Default.IPAddress);
+                    sessionOptions.HostName = Properties.Settings.Default.IPAddress;
+                    // Connect
+                    session.Open(sessionOptions);
+                    // Upload
+                    session.PutFilesToDirectory(sourcePath, "/atmosphere/contents").Check();
+                    statusSuccess = true;
+                }
+                catch (Exception err)
+                {
+                    statusSuccess = false;
+                    MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
 
-            UploadFtpDirectory(sourcePath, url, credentials);
-            //MessageBox.Show("Transfer Complete", "Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //Transfer via IP
+            // root path must exist
+            //string url = @"ftp://" + txtIP.Text + @":5000/atmosphere/contents/";
+            //NetworkCredential credentials = new NetworkCredential("", "");
+
+            //UploadFtpDirectory(sourcePath, url, credentials);
 
         }
+
+        // Setup session options
+        SessionOptions sessionOptions = new SessionOptions
+        {
+            Protocol = Protocol.Ftp,
+            HostName = Properties.Settings.Default.IPAddress,
+            PortNumber = 5000,
+            UserName = " ",
+            Password = "",
+        };
 
         void UploadFtpDirectory(string sourcePath, string url, NetworkCredential credentials)
         {
@@ -129,6 +178,7 @@ namespace NX_GIC
         {
             Cursor.Current = Cursors.WaitCursor;
             if (radUsb.Checked) usbTransfer();
+            else if (radMtp.Checked) mtpTransfer();
             else if (radFtp.Checked) ftpTransfer();
             else
             {
@@ -180,6 +230,11 @@ namespace NX_GIC
         {
             if (e.KeyCode == Keys.Escape)
                 this.Close();
+        }
+
+        private void radMtp_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radMtp.Checked) cmbDevice.Enabled = true; else cmbDevice.Enabled = false; 
         }
     }
 }

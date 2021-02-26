@@ -15,6 +15,19 @@ namespace NX_GIC
         public Settings()
         {
             InitializeComponent();
+            textBox1.Text = Properties.Settings.Default.GitHubs.Replace(";", "\r\n");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.GitHubs = textBox1.Text.Replace("\r\n", ";");
+            Properties.Settings.Default.Save();
+            this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

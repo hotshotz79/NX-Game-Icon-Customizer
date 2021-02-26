@@ -81,6 +81,7 @@ namespace NX_GIC
             // 
             // btnAdd
             // 
+            this.btnAdd.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnAdd.Location = new System.Drawing.Point(1107, 783);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(4);
             this.btnAdd.Name = "btnAdd";
@@ -94,6 +95,7 @@ namespace NX_GIC
             // 
             this.txtTitle.Location = new System.Drawing.Point(551, 791);
             this.txtTitle.Margin = new System.Windows.Forms.Padding(4);
+            this.txtTitle.MaxLength = 16;
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(283, 29);
             this.txtTitle.TabIndex = 7;
