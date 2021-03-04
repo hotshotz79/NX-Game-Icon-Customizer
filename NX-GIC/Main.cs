@@ -19,6 +19,8 @@ namespace NX_GIC
 {
     public partial class Main : Form
     {
+        string localVer = "1.0.0";
+
         string path = Directory.GetCurrentDirectory();
         string selectedPath = "";
         string subPath = "";
@@ -29,6 +31,33 @@ namespace NX_GIC
         public Main()
         {
             InitializeComponent();
+            VerCheck();
+            this.Text += " - v" + localVer;
+        }
+
+        private async void VerCheck()
+        {
+            await VersionCheckAsync();
+        }
+
+        private async Task VersionCheckAsync()
+        {
+            GitHubClient client = new GitHubClient(new ProductHeaderValue("nxgic"));
+            IReadOnlyList<Release> releases = await client.Repository.Release.GetAll("hotshotz79", "NX-Game-Icon-Customizer");
+            Version latestGitHubVersion = new Version(releases[0].TagName);
+            Version localVersion = new Version(localVer);
+
+            int versionComparison = localVersion.CompareTo(latestGitHubVersion);
+            if (versionComparison < 0)
+            {
+                DialogResult versionUpd = MessageBox.Show("A new version of NX-GIC is available, Click OK to go to GitHub Release page.\n\nPatch Notes " + releases[0].TagName + "\n\n" +
+                    releases[0].Body, "Update Available", 
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                if (versionUpd == DialogResult.OK)
+                {
+                    System.Diagnostics.Process.Start("https://github.com/hotshotz79/NX-Game-Icon-Customizer/releases");
+                }
+            }
         }
 
         private async Task DownloadFromGitHubRepo()
@@ -261,8 +290,9 @@ namespace NX_GIC
             {
                 DirectoryInfo dir_info = new DirectoryInfo(subdirectoryEntries[x]);
                 string directory = dir_info.Name;
-                //Ignore folders starting with . (i.e. .git)
-                if (directory.Substring(0, 1) != ".")
+                //Ignore folders starting with . (i.e. .git) and exclude Themes folder
+                if (directory.Substring(0, 1) != "." &&
+                    !directory.Contains("Themes"))
                     cmbSubfolders.Items.Add(directory);
             }
 
@@ -306,17 +336,21 @@ namespace NX_GIC
         //About
         private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Nintendo Switch - Game Icon Changer [NX-GIC]" +
-                "\n\nCreated by github.com/hotshotz79");
+            About frmAbout = new About();
+            frmAbout.ShowDialog();
         }
 
         //Transfer Button
         private void button1_Click(object sender, EventArgs e)
         {
-            //Form close = Clear Output
             Transfer frmTrans = new Transfer();
-            frmTrans.Show();
-            //Refresh Queue
+            frmTrans.ShowDialog();
+            //Clear Queue
+            if (frmTrans.statusSuccess)
+            {
+                dgvQueue.DataSource = null;
+                dgvQueue.Rows.Clear();
+            }
         }
 
         //Add New Button
@@ -357,6 +391,11 @@ namespace NX_GIC
                 Properties.Settings.Default.Save();
                 DisplayIcons(zoomLvl);
             }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/hotshotz79/NX-Game-Icon-Customizer/wiki");
         }
     }
 }

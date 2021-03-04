@@ -16,7 +16,7 @@ namespace NX_GIC
 {
     public partial class Transfer : Form
     {
-        bool statusSuccess = true;
+        public bool statusSuccess = true;
         string sourcePath = Directory.GetCurrentDirectory() + @"\Output\";
         public Transfer()
         {

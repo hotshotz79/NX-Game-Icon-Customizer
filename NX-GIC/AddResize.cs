@@ -119,8 +119,8 @@ namespace NX_GIC
             @"\" + txtName.Text.Substring(0, 1) + @"\";
             
             // A very weird way to determine the icon #... but it works
-            // loop upto 10 times to see if file name exist (icon1,icon2,etc)
-            for (int x = 1; x <= 10; x++) {
+            // loop upto 20 times to see if file name exist (icon1,icon2,etc)
+            for (int x = 1; x <= 20; x++) {
                 saveAs = txtName.Text.Replace(" ", "-") + "-" + x + "-[" + txtTitle.Text + "].jpg";
                 if (!File.Exists(pathMain + saveAs))
                     break;  //Stop loop here and use filename
