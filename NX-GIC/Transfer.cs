@@ -64,11 +64,19 @@ namespace NX_GIC
         {
             var devices = MediaDevice.GetDevices();
             string destPath = @"\SdCard\atmosphere\contents";
-            using (var device = devices.First(d => d.Description == cmbDevice.SelectedItem.ToString()))
+            try
             {
-                device.Connect();
-                device.UploadFolder(sourcePath, destPath, true);
-                device.Disconnect();
+                using (var device = devices.First(d => d.Description == cmbDevice.SelectedItem.ToString()))
+                {
+                    device.Connect();
+                    device.UploadFolder(sourcePath, destPath, true);
+                    device.Disconnect();
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+                statusSuccess = false;
             }
         }
 
@@ -199,6 +207,10 @@ namespace NX_GIC
                 lblStatus.Text = "Success";
                 lblStatus.BackColor = Color.Green;
                 lblStatus.ForeColor = Color.White;
+
+                //Delete Output
+                Directory.Delete(sourcePath, true);
+                Directory.CreateDirectory(sourcePath);
             }
             else
             {

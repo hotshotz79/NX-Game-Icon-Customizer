@@ -65,6 +65,15 @@ namespace NX_GIC
                     //Then generate a dummy file for Version check purposes
                     File.Create(path + @"\" + fileName);
                     moveFiles = true;
+
+                    //Delete previous zip file(s)
+                    DirectoryInfo di = new DirectoryInfo(path);
+                    FileInfo[] ZipFiles = di.GetFiles(gitUserRepo[x][0] + "*.zip");
+                    foreach (var fi in ZipFiles)
+                    {
+                        if (fi.Name != fileName)
+                            File.Delete(path + @"\" + fi.Name);
+                    }
                 }
             }
 
@@ -74,7 +83,7 @@ namespace NX_GIC
                 // Move Extracted folders into MAIN\
                 if (moveFiles)
                 {
-                    if (!subdirectoryEntries[x].ToString().Contains("OUTPUT") &&
+                    if (!subdirectoryEntries[x].ToString().Contains("Output") &&
                         !subdirectoryEntries[x].ToString().Contains("Main"))
                     {
                         string sourceDirectory = subdirectoryEntries[x];
@@ -126,7 +135,7 @@ namespace NX_GIC
         {
             Cursor.Current = Cursors.WaitCursor;
             //Create OUTPUT & Main folder if they don't exist
-            if (!Directory.Exists(path + "\\OUTPUT"))  Directory.CreateDirectory(path + "\\OUTPUT");
+            if (!Directory.Exists(path + "\\Output"))  Directory.CreateDirectory(path + "\\Output");
             if (!Directory.Exists(path + "\\Main")) Directory.CreateDirectory(path + "\\Main");
 
             //Check updates and download icons from Github
@@ -141,7 +150,7 @@ namespace NX_GIC
             for (int x = 0; x < subdirectoryEntries.Length; x++)
             {
                 //Ignoring OUTPUT folder
-                if (!subdirectoryEntries[x].ToString().Contains("OUTPUT"))
+                if (!subdirectoryEntries[x].ToString().Contains("Output"))
                 {
                     DirectoryInfo dir_info = new DirectoryInfo(subdirectoryEntries[x]);
                     string directory = dir_info.Name;
@@ -221,14 +230,14 @@ namespace NX_GIC
             dgvIconList.AllowUserToAddRows = false;
         }
 
-        //Icon Double Click = Copy to OUTPUT folder
+        // (dgvIconList) Icon Double Click = Copy to OUTPUT folder
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             //Copy current selected image
             string copyPath = dgvIconList.Rows[e.RowIndex].Cells[3].Value.ToString();
-            string PastePath = path + "\\OUTPUT\\" + dgvIconList.Rows[e.RowIndex].Cells[2].Value.ToString();
+            string PastePath = path + "\\Output\\" + dgvIconList.Rows[e.RowIndex].Cells[2].Value.ToString();
             Directory.CreateDirectory(PastePath);
-            //Paste & Rename @ ..\OUTPUT\{Title ID}\icon.jpg
+            //Paste & Rename @ ..\Output\{Title ID}\icon.jpg
             File.Copy(copyPath, PastePath + "\\icon.jpg", true);
             //Add Name to dgvQueue
             dgvQueue.Rows.Add(dgvIconList.Rows[e.RowIndex].Cells[1].Value);
@@ -236,11 +245,11 @@ namespace NX_GIC
 
         private void cmbRepo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GenerateIconStyle();
+            GenerateFolderStyles();
         }
 
         //Drop Down for selecting style (Horizontal, Vertical, etc)
-        public void GenerateIconStyle()
+        public void GenerateFolderStyles()
         {
             dgvFolders.DataSource = null;
             dgvFolders.Rows.Clear();
@@ -268,7 +277,7 @@ namespace NX_GIC
             GenerateSubFolders();
         }
 
-        //Sub Folder selection
+        //Generate sub folders (A-Z)
         public void GenerateSubFolders()
         {
             dgvFolders.DataSource = null;
@@ -304,6 +313,7 @@ namespace NX_GIC
         //Transfer Button
         private void button1_Click(object sender, EventArgs e)
         {
+            //Form close = Clear Output
             Transfer frmTrans = new Transfer();
             frmTrans.Show();
             //Refresh Queue
@@ -329,7 +339,7 @@ namespace NX_GIC
 
         private void btnZoomOut_Click(object sender, EventArgs e)
         {
-            if (dgvIconList.DataSource != null)
+            if (dgvIconList.Rows.Count > 0)
             {
                 zoomLvl -= 0.25m;
                 Properties.Settings.Default.ZoomLevel = zoomLvl;
@@ -340,7 +350,7 @@ namespace NX_GIC
 
         private void btnZoomIn_Click(object sender, EventArgs e)
         {
-            if (dgvIconList.DataSource != null)
+            if (dgvIconList.Rows.Count > 0)
             {
                 zoomLvl += 0.25m;
                 Properties.Settings.Default.ZoomLevel = zoomLvl;

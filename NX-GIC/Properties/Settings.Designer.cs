@@ -58,5 +58,17 @@ namespace NX_GIC.Properties {
                 this["ZoomLevel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://raw.githubusercontent.com/blawar/titledb/master/titles.US.en.json")]
+        public string TitleDB {
+            get {
+                return ((string)(this["TitleDB"]));
+            }
+            set {
+                this["TitleDB"] = value;
+            }
+        }
     }
 }

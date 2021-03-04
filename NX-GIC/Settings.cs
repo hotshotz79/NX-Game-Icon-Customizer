@@ -16,11 +16,13 @@ namespace NX_GIC
         {
             InitializeComponent();
             textBox1.Text = Properties.Settings.Default.GitHubs.Replace(";", "\r\n");
+            textBox2.Text = Properties.Settings.Default.TitleDB;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.GitHubs = textBox1.Text.Replace("\r\n", ";");
+            Properties.Settings.Default.TitleDB = textBox2.Text;
             Properties.Settings.Default.Save();
             this.Close();
         }

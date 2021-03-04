@@ -11,5 +11,8 @@
     <Setting Name="ZoomLevel" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">1.0</Value>
     </Setting>
+    <Setting Name="TitleDB" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://raw.githubusercontent.com/blawar/titledb/master/titles.US.en.json</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -187,7 +187,7 @@ namespace NX_GIC
                 WebClient webClient = new WebClient();
                 ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
                 //Json Source: github.com/blawar/titledb
-                string jsonResult = webClient.DownloadString("https://raw.githubusercontent.com/blawar/titledb/master/titles.US.en.json");
+                string jsonResult = webClient.DownloadString(Properties.Settings.Default.TitleDB);
 
                 int resultCount = 0;
                 List<string> titleIDs = new List<string>();
