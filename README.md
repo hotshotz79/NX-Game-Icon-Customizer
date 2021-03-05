@@ -49,6 +49,7 @@ ____
 
 # Credits
 
+* [PSam](https://github.com/p-sam/switch-sys-tweak) - Sys-Tweak developer, this tool wouldn't exist without this module
 * [SodaSoba](https://github.com/sodasoba1/NSW-Custom-Game-Icons) - For creating a huge Icon Repository and for all the testing/feedback pre-release
 * [Blawar](https://github.com/blawar/titledb) - Title ID JSON provided from TitleDB github
 * [GBATemp](https://gbatemp.net/threads/custom-game-icons-tutorial-and-sharing-hub-no-forwarders.574675/) Community
