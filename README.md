@@ -24,7 +24,7 @@ See **Feature** list below and make sure to check out the [Wiki](https://github.
 
 ____
 
-# Features
+## Features
 
 * Select from over 1000+ pre-made custom icons from [Hotshotz](https://github.com/hotshotz79/NX-Custom-Game-Icons) and [SodaSoba](https://github.com/sodasoba1/NSW-Custom-Game-Icons) Icon Repository
 * Or create your own icons for any game or homebrew
@@ -41,10 +41,9 @@ ____
 
 ____
 
-# Future Enhancements
+## Future Enhancements
 
-* Have a few things in mind
-* But catching up on gaming backlog at the moment
+* Go to [Projects](https://github.com/hotshotz79/NX-Game-Icon-Customizer/projects/1) section
 ____
 
 # Credits
