@@ -178,17 +178,35 @@ namespace NX_GIC
 
         private void btnTitle_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+            //Grab the JSON, Offline = local file, Online = http link
+            string jsonResult = "";
+            if (Properties.Settings.Default.OfflineStatus)
+            {
+                //Pop up browse dialog
+                openFileDialog1.InitialDirectory = Directory.GetCurrentDirectory();
+                openFileDialog1.Title = "Browse Title ID file";
+                openFileDialog1.DefaultExt = "json";
+                openFileDialog1.Filter = "json file (*.json)|*.json";
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    jsonResult = new StreamReader(openFileDialog1.FileName).ReadToEnd();
+                }
+            }
+            else
+            {
+                WebClient webClient = new WebClient();
+                ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+                //Json Source: github.com/blawar/titledb
+                jsonResult = webClient.DownloadString(Properties.Settings.Default.TitleDB);
+            }
+
+            //Attempt to Look for Title ID
             if (txtName.Text.Length < 4)
                 MessageBox.Show("Too few characters");
             else
             {
-                Cursor.Current = Cursors.WaitCursor;
-                
-                WebClient webClient = new WebClient();
-                ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
-                //Json Source: github.com/blawar/titledb
-                string jsonResult = webClient.DownloadString(Properties.Settings.Default.TitleDB);
-
                 int resultCount = 0;
                 List<string> titleIDs = new List<string>();
                 var obj = JObject.Parse(jsonResult);
@@ -219,20 +237,21 @@ namespace NX_GIC
                     DataTable dtTids = new DataTable();
                     dtTids.Columns.Add("Title ID", typeof(string));
                     dtTids.Columns.Add("Name", typeof(string));
-                    
+
                     foreach (var id in titleIDs)
                     {
                         string gameName = (string)obj[id.ToString()]["name"];
                         dtTids.Rows.Add(id.ToString(), gameName);
                     }
-                    Cursor.Current = Cursors.Default;
+
                     TitleIDSelect frmTid = new TitleIDSelect(dtTids);
                     if (frmTid.ShowDialog(this) == DialogResult.OK)
                     {
                         txtTitle.Text = frmTid.selectedID;
-                    }   
-                }   
+                    }
+                }
             }
+            Cursor.Current = Cursors.Default;
         }
 
         private void AddResize_KeyDown(object sender, KeyEventArgs e)

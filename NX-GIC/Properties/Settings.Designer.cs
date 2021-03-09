@@ -70,5 +70,17 @@ namespace NX_GIC.Properties {
                 this["TitleDB"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OfflineStatus {
+            get {
+                return ((bool)(this["OfflineStatus"]));
+            }
+            set {
+                this["OfflineStatus"] = value;
+            }
+        }
     }
 }

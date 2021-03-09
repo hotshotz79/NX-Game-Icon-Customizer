@@ -19,25 +19,41 @@ namespace NX_GIC
 {
     public partial class Main : Form
     {
-        string localVer = "1.0.0";
+        string localVer = "1.1.0";
 
         string path = Directory.GetCurrentDirectory();
         string selectedPath = "";
         string subPath = "";
         string iconFolder = "";
+        bool offlineMode = Properties.Settings.Default.OfflineStatus;
         bool moveFiles = false;
         decimal zoomLvl = Properties.Settings.Default.ZoomLevel;
 
         public Main()
         {
             InitializeComponent();
-            VerCheck();
+            if (!offlineMode)
+                VerCheck();
+            else
+                toolStripStatusLabel1.Text = "Offline";
+
             this.Text += " - v" + localVer;
         }
 
         private async void VerCheck()
         {
-            await VersionCheckAsync();
+            //Confirm Internet is working before checking for Updates
+            try
+            {
+                using (var client = new WebClient())
+                    using (client.OpenRead("http://google.com/generate_204"))
+                        await VersionCheckAsync();
+            }
+            catch
+            {
+                //Do Nothing
+            }
+            
         }
 
         private async Task VersionCheckAsync()
@@ -168,7 +184,8 @@ namespace NX_GIC
             if (!Directory.Exists(path + "\\Main")) Directory.CreateDirectory(path + "\\Main");
 
             //Check updates and download icons from Github
-            await DownloadFromGitHubRepo();
+            if (!offlineMode)
+                await DownloadFromGitHubRepo();
 
             //Get list of all existing folders
             string[] subdirectoryEntries = Directory.GetDirectories(path);
@@ -396,6 +413,35 @@ namespace NX_GIC
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/hotshotz79/NX-Game-Icon-Customizer/wiki");
+        }
+
+        //Change status to stay Offline
+        private void goOfflineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!goOfflineToolStripMenuItem.Checked)
+            {
+                DialogResult modeResult = MessageBox.Show("Change working mode to Offline?\n\nNote: If you wish to view pre-made custom icons, you will need to be manually download and extract Icon Repository(s)" +
+                      "\nTitle ID database will also need to be downloaded seperately in order to automatically find IDs for games",
+                      "Mode Change",
+                      MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                if (modeResult == DialogResult.OK)
+                {
+                    goOfflineToolStripMenuItem.Checked = true;
+                    offlineMode = true;
+                    toolStripStatusLabel1.Text = "Offline";
+                    Properties.Settings.Default.OfflineStatus = true;
+                    Properties.Settings.Default.Save();
+                }
+            }
+            else
+            {
+                goOfflineToolStripMenuItem.Checked = false;
+                offlineMode = false;
+                toolStripStatusLabel1.Text = "";
+                Properties.Settings.Default.OfflineStatus = false;
+                Properties.Settings.Default.Save();
+            }
+
         }
     }
 }

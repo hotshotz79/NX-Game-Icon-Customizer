@@ -59,7 +59,10 @@
             this.btnZoomOut = new System.Windows.Forms.Button();
             this.btnZoomIn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.goOfflineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFolders)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQueue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIconList)).BeginInit();
@@ -82,9 +85,10 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem1,
+            this.goOfflineToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // settingsToolStripMenuItem1
@@ -113,20 +117,22 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.aboutToolStripMenuItem.Text = "Guide / Wiki";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem1
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(139, 22);
             this.aboutToolStripMenuItem1.Text = "About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
             // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 724);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 14, 0);
@@ -309,7 +315,7 @@
             // 
             this.btnAddResize.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddResize.Location = new System.Drawing.Point(94, 34);
-            this.btnAddResize.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddResize.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddResize.Name = "btnAddResize";
             this.btnAddResize.Size = new System.Drawing.Size(77, 24);
             this.btnAddResize.TabIndex = 2;
@@ -371,6 +377,19 @@
             this.label3.TabIndex = 18;
             this.label3.Text = "Zoom:";
             // 
+            // goOfflineToolStripMenuItem
+            // 
+            this.goOfflineToolStripMenuItem.Name = "goOfflineToolStripMenuItem";
+            this.goOfflineToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.goOfflineToolStripMenuItem.Text = "Work Offline";
+            this.goOfflineToolStripMenuItem.Checked = Properties.Settings.Default.OfflineStatus;
+            this.goOfflineToolStripMenuItem.Click += new System.EventHandler(this.goOfflineToolStripMenuItem_Click);
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -397,6 +416,8 @@
             this.Text = "[NX-GIC] Nintendo Switch - Game Icon Customizer";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFolders)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQueue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIconList)).EndInit();
@@ -434,6 +455,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TitleID;
         private System.Windows.Forms.DataGridViewTextBoxColumn FilePath;
         private System.Windows.Forms.DataGridViewTextBoxColumn Output;
+        private System.Windows.Forms.ToolStripMenuItem goOfflineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 

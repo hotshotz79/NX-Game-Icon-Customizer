@@ -14,5 +14,8 @@
     <Setting Name="TitleDB" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://raw.githubusercontent.com/blawar/titledb/master/titles.US.en.json</Value>
     </Setting>
+    <Setting Name="OfflineStatus" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -29,8 +29,6 @@ namespace NX_GIC
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.label1 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.btnReset = new System.Windows.Forms.Button();
@@ -48,6 +46,7 @@ namespace NX_GIC
             this.picPreview = new System.Windows.Forms.PictureBox();
             this.picTheme = new System.Windows.Forms.PictureBox();
             this.btnTitle = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picTheme)).BeginInit();
             this.SuspendLayout();
@@ -55,27 +54,27 @@ namespace NX_GIC
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 794);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(16, 430);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(106, 25);
+            this.label1.Size = new System.Drawing.Size(59, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Icon Name";
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(143, 791);
-            this.txtName.Margin = new System.Windows.Forms.Padding(4);
+            this.txtName.Location = new System.Drawing.Point(78, 428);
+            this.txtName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(283, 29);
+            this.txtName.Size = new System.Drawing.Size(156, 20);
             this.txtName.TabIndex = 6;
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(998, 784);
-            this.btnReset.Margin = new System.Windows.Forms.Padding(4);
+            this.btnReset.Location = new System.Drawing.Point(544, 425);
+            this.btnReset.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(101, 44);
+            this.btnReset.Size = new System.Drawing.Size(55, 24);
             this.btnReset.TabIndex = 9;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = true;
@@ -84,10 +83,10 @@ namespace NX_GIC
             // btnAdd
             // 
             this.btnAdd.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnAdd.Location = new System.Drawing.Point(1107, 783);
-            this.btnAdd.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAdd.Location = new System.Drawing.Point(604, 424);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(101, 44);
+            this.btnAdd.Size = new System.Drawing.Size(55, 24);
             this.btnAdd.TabIndex = 10;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -95,39 +94,39 @@ namespace NX_GIC
             // 
             // txtTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(551, 791);
-            this.txtTitle.Margin = new System.Windows.Forms.Padding(4);
+            this.txtTitle.Location = new System.Drawing.Point(301, 428);
+            this.txtTitle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtTitle.MaxLength = 16;
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(283, 29);
+            this.txtTitle.Size = new System.Drawing.Size(156, 20);
             this.txtTitle.TabIndex = 7;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(470, 794);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(256, 430);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 25);
+            this.label2.Size = new System.Drawing.Size(41, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Title ID";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(29, 37);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(16, 20);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(121, 25);
+            this.label3.Size = new System.Drawing.Size(66, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Load Image:";
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(167, 26);
-            this.btnBrowse.Margin = new System.Windows.Forms.Padding(4);
+            this.btnBrowse.Location = new System.Drawing.Point(91, 14);
+            this.btnBrowse.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(101, 44);
+            this.btnBrowse.Size = new System.Drawing.Size(55, 24);
             this.btnBrowse.TabIndex = 1;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.UseVisualStyleBackColor = true;
@@ -135,10 +134,10 @@ namespace NX_GIC
             // 
             // btnUrl
             // 
-            this.btnUrl.Location = new System.Drawing.Point(284, 26);
-            this.btnUrl.Margin = new System.Windows.Forms.Padding(4);
+            this.btnUrl.Location = new System.Drawing.Point(155, 14);
+            this.btnUrl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnUrl.Name = "btnUrl";
-            this.btnUrl.Size = new System.Drawing.Size(101, 44);
+            this.btnUrl.Size = new System.Drawing.Size(55, 24);
             this.btnUrl.TabIndex = 2;
             this.btnUrl.Text = "URL";
             this.btnUrl.UseVisualStyleBackColor = true;
@@ -147,10 +146,10 @@ namespace NX_GIC
             // radHori
             // 
             this.radHori.AutoSize = true;
-            this.radHori.Location = new System.Drawing.Point(946, 33);
-            this.radHori.Margin = new System.Windows.Forms.Padding(4);
+            this.radHori.Location = new System.Drawing.Point(516, 18);
+            this.radHori.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.radHori.Name = "radHori";
-            this.radHori.Size = new System.Drawing.Size(124, 29);
+            this.radHori.Size = new System.Drawing.Size(72, 17);
             this.radHori.TabIndex = 4;
             this.radHori.TabStop = true;
             this.radHori.Text = "Horizontal";
@@ -160,10 +159,10 @@ namespace NX_GIC
             // radVert
             // 
             this.radVert.AutoSize = true;
-            this.radVert.Location = new System.Drawing.Point(1098, 33);
-            this.radVert.Margin = new System.Windows.Forms.Padding(4);
+            this.radVert.Location = new System.Drawing.Point(599, 18);
+            this.radVert.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.radVert.Name = "radVert";
-            this.radVert.Size = new System.Drawing.Size(102, 29);
+            this.radVert.Size = new System.Drawing.Size(60, 17);
             this.radVert.TabIndex = 5;
             this.radVert.TabStop = true;
             this.radVert.Text = "Vertical";
@@ -174,10 +173,10 @@ namespace NX_GIC
             // 
             this.radDefault.AutoSize = true;
             this.radDefault.Checked = true;
-            this.radDefault.Location = new System.Drawing.Point(807, 33);
-            this.radDefault.Margin = new System.Windows.Forms.Padding(4);
+            this.radDefault.Location = new System.Drawing.Point(440, 18);
+            this.radDefault.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.radDefault.Name = "radDefault";
-            this.radDefault.Size = new System.Drawing.Size(98, 29);
+            this.radDefault.Size = new System.Drawing.Size(59, 17);
             this.radDefault.TabIndex = 3;
             this.radDefault.TabStop = true;
             this.radDefault.Text = "Default";
@@ -187,20 +186,20 @@ namespace NX_GIC
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(671, 37);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(366, 20);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(100, 25);
+            this.label4.Size = new System.Drawing.Size(55, 13);
             this.label4.TabIndex = 13;
             this.label4.Text = "Icon style:";
             // 
             // picPreview
             // 
             this.picPreview.BackColor = System.Drawing.Color.White;
-            this.picPreview.Location = new System.Drawing.Point(128, 273);
-            this.picPreview.Margin = new System.Windows.Forms.Padding(4);
+            this.picPreview.Location = new System.Drawing.Point(70, 148);
+            this.picPreview.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.picPreview.Name = "picPreview";
-            this.picPreview.Size = new System.Drawing.Size(238, 240);
+            this.picPreview.Size = new System.Drawing.Size(130, 130);
             this.picPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picPreview.TabIndex = 0;
             this.picPreview.TabStop = false;
@@ -208,31 +207,34 @@ namespace NX_GIC
             // picTheme
             // 
             this.picTheme.Image = global::NX_GIC.Properties.Resources.Default;
-            this.picTheme.Location = new System.Drawing.Point(35, 96);
-            this.picTheme.Margin = new System.Windows.Forms.Padding(6);
+            this.picTheme.Location = new System.Drawing.Point(19, 52);
             this.picTheme.Name = "picTheme";
-            this.picTheme.Size = new System.Drawing.Size(1173, 665);
+            this.picTheme.Size = new System.Drawing.Size(640, 360);
             this.picTheme.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picTheme.TabIndex = 14;
             this.picTheme.TabStop = false;
             // 
             // btnTitle
             // 
-            this.btnTitle.Location = new System.Drawing.Point(852, 784);
-            this.btnTitle.Margin = new System.Windows.Forms.Padding(4);
+            this.btnTitle.Location = new System.Drawing.Point(465, 425);
+            this.btnTitle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnTitle.Name = "btnTitle";
-            this.btnTitle.Size = new System.Drawing.Size(68, 44);
+            this.btnTitle.Size = new System.Drawing.Size(37, 24);
             this.btnTitle.TabIndex = 8;
             this.btnTitle.Text = "Find";
             this.btnTitle.UseVisualStyleBackColor = true;
             this.btnTitle.Click += new System.EventHandler(this.btnTitle_Click);
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
             // AddResize
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1241, 857);
+            this.ClientSize = new System.Drawing.Size(677, 464);
             this.Controls.Add(this.btnTitle);
             this.Controls.Add(this.picPreview);
             this.Controls.Add(this.picTheme);
@@ -251,7 +253,7 @@ namespace NX_GIC
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "AddResize";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add New Icon";
@@ -282,5 +284,6 @@ namespace NX_GIC
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox picTheme;
         private System.Windows.Forms.Button btnTitle;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
