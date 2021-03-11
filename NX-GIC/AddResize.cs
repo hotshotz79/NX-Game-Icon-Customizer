@@ -20,6 +20,7 @@ namespace NX_GIC
     {
         public Image saveImage = new Bitmap(256, 256);
         public string iconText = "";
+        public string iconID = "";
 
         public AddResize()
         {
@@ -142,6 +143,7 @@ namespace NX_GIC
             picPreview.Image.Save(pathOut + "icon.jpg", codec, parameters);
             picPreview.Image.Save(pathMain + saveAs, codec, parameters);
             iconText = txtName.Text;
+            iconID = txtTitle.Text;
             //ToDo: Check if icon was under 120KB
             //If so, retry with Encoder.Quality @ 95L
         }

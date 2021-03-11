@@ -19,7 +19,7 @@ namespace NX_GIC
 {
     public partial class Main : Form
     {
-        string localVer = "1.1.0";
+        string localVer = "1.2.0";
 
         string path = Directory.GetCurrentDirectory();
         string selectedPath = "";
@@ -246,6 +246,8 @@ namespace NX_GIC
             dgvIconList.AllowUserToAddRows = true;
             dgvIconList.Rows.Clear();
             dgvIconList.DataSource = null;
+            
+            flowIcons.Controls.Clear();
 
             string[] fileEntries = Directory.GetFiles(iconFolder);
 
@@ -271,9 +273,33 @@ namespace NX_GIC
                     row.Cells[2].Value = splitFileName[1]; //TitleID
                     row.Cells[3].Value = dir_info;
                     dgvIconList.Rows.Insert(dgvIconList.Rows.Count - 1, row);
+
+                    //Populate the Flow Panel
+                    PictureBox pbIcon = new PictureBox();
+                    pbIcon.ImageLocation = dir_info.ToString();
+                    pbIcon.Name = splitFileName[0].Replace('-', ' ').Trim();
+                    pbIcon.Tag = splitFileName[1];
+                    pbIcon.Size = new Size(imgCol.Width, Convert.ToInt32(256 * zoom));
+                    pbIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pbIcon.DoubleClick += new EventHandler(this.iconClicked);
+                    flowIcons.Controls.Add(pbIcon);
                 }
             }
             dgvIconList.AllowUserToAddRows = false;
+        }
+
+        //When a picture is double clicked
+        void iconClicked(object sender, EventArgs e)
+        {
+            PictureBox pb = (PictureBox)sender;
+
+            string copyPath = pb.ImageLocation.ToString();
+            string PastePath = path + "\\Output\\" + pb.Tag.ToString();
+            Directory.CreateDirectory(PastePath);
+            //Paste & Rename @ ..\Output\{Title ID}\icon.jpg
+            File.Copy(copyPath, PastePath + "\\icon.jpg", true);
+            //Add Name to dgvQueue
+            dgvQueue.Rows.Add(pb.Name, pb.Tag);
         }
 
         // (dgvIconList) Icon Double Click = Copy to OUTPUT folder
@@ -376,7 +402,7 @@ namespace NX_GIC
             AddResize frmAdd = new AddResize();
             if (frmAdd.ShowDialog(this) == DialogResult.OK)
             {
-                dgvQueue.Rows.Add(frmAdd.iconText);
+                dgvQueue.Rows.Add(frmAdd.iconText, frmAdd.iconID);
                 if (cmbSubfolders.SelectedIndex != -1)
                     GenerateSubFolders();
             }

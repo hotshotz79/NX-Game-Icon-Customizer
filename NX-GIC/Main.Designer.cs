@@ -35,15 +35,16 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.goOfflineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgvFolders = new System.Windows.Forms.DataGridView();
             this.Folder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvQueue = new System.Windows.Forms.DataGridView();
-            this.Output = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnConnect = new System.Windows.Forms.Button();
             this.cmbRepo = new System.Windows.Forms.ComboBox();
             this.dgvIconList = new System.Windows.Forms.DataGridView();
@@ -59,8 +60,10 @@
             this.btnZoomOut = new System.Windows.Forms.Button();
             this.btnZoomIn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.goOfflineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.flowIcons = new System.Windows.Forms.FlowLayoutPanel();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.Output = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFolders)).BeginInit();
@@ -94,14 +97,22 @@
             // settingsToolStripMenuItem1
             // 
             this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
-            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
             this.settingsToolStripMenuItem1.Text = "Settings";
             this.settingsToolStripMenuItem1.Click += new System.EventHandler(this.settingsToolStripMenuItem1_Click);
+            // 
+            // goOfflineToolStripMenuItem
+            // 
+            this.goOfflineToolStripMenuItem.Checked = global::NX_GIC.Properties.Settings.Default.OfflineStatus;
+            this.goOfflineToolStripMenuItem.Name = "goOfflineToolStripMenuItem";
+            this.goOfflineToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.goOfflineToolStripMenuItem.Text = "Work Offline";
+            this.goOfflineToolStripMenuItem.Click += new System.EventHandler(this.goOfflineToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -132,13 +143,19 @@
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
+            this.toolStripStatusLabel1,
+            this.toolStripProgressBar1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 724);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 14, 0);
             this.statusStrip1.Size = new System.Drawing.Size(996, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
             // 
             // dgvFolders
             // 
@@ -186,7 +203,8 @@
             this.dgvQueue.BackgroundColor = System.Drawing.Color.White;
             this.dgvQueue.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvQueue.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Output});
+            this.Output,
+            this.Title_ID});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -203,14 +221,6 @@
             this.dgvQueue.Size = new System.Drawing.Size(240, 200);
             this.dgvQueue.TabIndex = 8;
             // 
-            // Output
-            // 
-            this.Output.HeaderText = "Output";
-            this.Output.MinimumWidth = 200;
-            this.Output.Name = "Output";
-            this.Output.ReadOnly = true;
-            this.Output.Width = 200;
-            // 
             // btnConnect
             // 
             this.btnConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -226,7 +236,7 @@
             // 
             this.cmbRepo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbRepo.FormattingEnabled = true;
-            this.cmbRepo.Location = new System.Drawing.Point(94, 64);
+            this.cmbRepo.Location = new System.Drawing.Point(95, 64);
             this.cmbRepo.Name = "cmbRepo";
             this.cmbRepo.Size = new System.Drawing.Size(158, 21);
             this.cmbRepo.TabIndex = 4;
@@ -247,15 +257,16 @@
             this.Game,
             this.TitleID,
             this.FilePath});
-            this.dgvIconList.Location = new System.Drawing.Point(259, 64);
+            this.dgvIconList.Location = new System.Drawing.Point(407, 34);
             this.dgvIconList.MultiSelect = false;
             this.dgvIconList.Name = "dgvIconList";
             this.dgvIconList.RowHeadersVisible = false;
             this.dgvIconList.RowHeadersWidth = 72;
             this.dgvIconList.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvIconList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvIconList.Size = new System.Drawing.Size(724, 657);
+            this.dgvIconList.Size = new System.Drawing.Size(575, 687);
             this.dgvIconList.TabIndex = 7;
+            this.dgvIconList.Visible = false;
             this.dgvIconList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             // 
             // IconArt
@@ -294,7 +305,7 @@
             // 
             this.cmbSubfolders.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbSubfolders.FormattingEnabled = true;
-            this.cmbSubfolders.Location = new System.Drawing.Point(94, 89);
+            this.cmbSubfolders.Location = new System.Drawing.Point(95, 89);
             this.cmbSubfolders.Name = "cmbSubfolders";
             this.cmbSubfolders.Size = new System.Drawing.Size(158, 21);
             this.cmbSubfolders.TabIndex = 5;
@@ -315,7 +326,7 @@
             // 
             this.btnAddResize.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddResize.Location = new System.Drawing.Point(94, 34);
-            this.btnAddResize.Margin = new System.Windows.Forms.Padding(2);
+            this.btnAddResize.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAddResize.Name = "btnAddResize";
             this.btnAddResize.Size = new System.Drawing.Size(77, 24);
             this.btnAddResize.TabIndex = 2;
@@ -377,24 +388,44 @@
             this.label3.TabIndex = 18;
             this.label3.Text = "Zoom:";
             // 
-            // goOfflineToolStripMenuItem
+            // flowIcons
             // 
-            this.goOfflineToolStripMenuItem.Name = "goOfflineToolStripMenuItem";
-            this.goOfflineToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.goOfflineToolStripMenuItem.Text = "Work Offline";
-            this.goOfflineToolStripMenuItem.Checked = Properties.Settings.Default.OfflineStatus;
-            this.goOfflineToolStripMenuItem.Click += new System.EventHandler(this.goOfflineToolStripMenuItem_Click);
+            this.flowIcons.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowIcons.AutoScroll = true;
+            this.flowIcons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flowIcons.Location = new System.Drawing.Point(260, 64);
+            this.flowIcons.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flowIcons.Name = "flowIcons";
+            this.flowIcons.Size = new System.Drawing.Size(722, 657);
+            this.flowIcons.TabIndex = 19;
             // 
-            // toolStripStatusLabel1
+            // toolStripProgressBar1
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            // 
+            // Output
+            // 
+            this.Output.HeaderText = "Output";
+            this.Output.MinimumWidth = 100;
+            this.Output.Name = "Output";
+            this.Output.ReadOnly = true;
+            // 
+            // Title_ID
+            // 
+            this.Title_ID.HeaderText = "Title ID";
+            this.Title_ID.MinimumWidth = 100;
+            this.Title_ID.Name = "Title_ID";
+            this.Title_ID.ReadOnly = true;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(996, 746);
+            this.Controls.Add(this.flowIcons);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnZoomIn);
             this.Controls.Add(this.btnZoomOut);
@@ -454,9 +485,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Game;
         private System.Windows.Forms.DataGridViewTextBoxColumn TitleID;
         private System.Windows.Forms.DataGridViewTextBoxColumn FilePath;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Output;
         private System.Windows.Forms.ToolStripMenuItem goOfflineToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.FlowLayoutPanel flowIcons;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Output;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Title_ID;
     }
 }
 
