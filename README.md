@@ -20,7 +20,7 @@ With the introduction of [Sys-Tweak](https://gbatemp.net/threads/custom-game-ico
 
 See **Feature** list below and make sure to check out the [Wiki](https://github.com/hotshotz79/NX-Game-Icon-Customizer/wiki) page for more details and **FAQ**.
 
-![Scan](https://user-images.githubusercontent.com/7006684/110041559-44145a80-7d12-11eb-9a2b-f8f971645115.PNG)
+![MainSplash](https://user-images.githubusercontent.com/7006684/111810749-bbb6bd80-88ac-11eb-9b97-3701279d0b37.PNG)
 
 ____
 
