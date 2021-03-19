@@ -25,6 +25,7 @@ namespace NX_GIC
         string selectedPath = "";
         string subPath = "";
         string iconFolder = "";
+        string origTitleID = "";
         bool offlineMode = Properties.Settings.Default.OfflineStatus;
         bool moveFiles = false;
         decimal zoomLvl = Properties.Settings.Default.ZoomLevel;
@@ -78,6 +79,8 @@ namespace NX_GIC
 
         private async Task DownloadFromGitHubRepo()
         {
+            toolStripProgressBar1.Visible = true;
+            toolStripProgressBar1.Value = 5;
             Cursor.Current = Cursors.WaitCursor;
             //Split repos into arrays
             var gitUserRepo = Properties.Settings.Default.GitHubs.Split(';').Select(x => x.Split('/')).ToArray();
@@ -90,21 +93,23 @@ namespace NX_GIC
                 GitHubClient client = new GitHubClient(new ProductHeaderValue("nxgic"));
                 IReadOnlyList<Release> releases = await client.Repository.Release.GetAll(gitUserRepo[x][0].ToString(), gitUserRepo[x][1].ToString());
                 IReadOnlyList<RepositoryTag> tags = await client.Repository.GetAllTags(gitUserRepo[x][0].ToString(), gitUserRepo[x][1].ToString());
-
+                toolStripProgressBar1.Value = 10;
                 string fileName = gitUserRepo[x][0] + "." + tags[0].Name + ".zip";
 
                 //Download/Extract if new
                 if (!File.Exists(path + @"\" + fileName))
                 {
+                    toolStripProgressBar1.Value = 25;
                     //Download Latest Zip/Tag
                     using (var clientWeb = new WebClient())
                     {
                         clientWeb.Headers.Add("User-Agent: Other");
                         clientWeb.DownloadFile(tags[0].ZipballUrl, fileName);
                     }
+                    toolStripProgressBar1.Value = 50;
                     //Extract zip file
                     ZipFile.ExtractToDirectory(fileName, path);
-
+                    toolStripProgressBar1.Value = 75;
                     //Delete the zip file to save space
                     File.Delete(path + @"\" + fileName);
                     //Then generate a dummy file for Version check purposes
@@ -119,6 +124,7 @@ namespace NX_GIC
                         if (fi.Name != fileName)
                             File.Delete(path + @"\" + fi.Name);
                     }
+                    toolStripProgressBar1.Value = 90;
                 }
             }
 
@@ -143,6 +149,8 @@ namespace NX_GIC
                 }
                 Cursor.Current = Cursors.Default;
             }
+            toolStripProgressBar1.Value = 100;
+            toolStripProgressBar1.Visible = false;
         }
 
         //Copy Downloaded Repo folders into one; Main
@@ -468,6 +476,36 @@ namespace NX_GIC
                 Properties.Settings.Default.Save();
             }
 
+        }
+
+        //Queue - Remove record
+        private void dgvQueue_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            origTitleID = dgvQueue.Rows[e.RowIndex].Cells[1].Value.ToString();
+            int index = dgvQueue.Columns[2].Index;
+            if (e.ColumnIndex == index && e.RowIndex >= 0)
+            {
+                string titleID = dgvQueue.Rows[e.RowIndex].Cells[1].Value.ToString();
+                Directory.Delete(path + @"\Output\" + titleID, true);
+                dgvQueue.Rows.RemoveAt(e.RowIndex);
+            }
+        }
+
+        //Queue - Title ID Change
+        private void dgvQueue_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            string titleID = dgvQueue.Rows[e.RowIndex].Cells[1].Value.ToString();
+            if (titleID.Length != 16)
+            {
+                MessageBox.Show("Title ID needs to be exactly 16 characters", "Incorrect Title ID", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dgvQueue.Rows[e.RowIndex].Cells[1].Value = origTitleID;
+                return;
+            }
+            else
+            {
+                if (origTitleID != titleID)
+                    Directory.Move(path + @"\Output\" + origTitleID, path + @"\Output\" + titleID);
+            }
         }
     }
 }

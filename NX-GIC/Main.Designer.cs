@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,6 +44,7 @@
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.dgvFolders = new System.Windows.Forms.DataGridView();
             this.Folder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvQueue = new System.Windows.Forms.DataGridView();
@@ -61,14 +64,17 @@
             this.btnZoomIn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.flowIcons = new System.Windows.Forms.FlowLayoutPanel();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.cmsTitleID = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.Output = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Title_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Remove = new System.Windows.Forms.DataGridViewButtonColumn();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFolders)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQueue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIconList)).BeginInit();
+            this.cmsTitleID.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -145,7 +151,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 724);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 614);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 14, 0);
             this.statusStrip1.Size = new System.Drawing.Size(996, 22);
@@ -156,6 +162,11 @@
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(262, 16);
             // 
             // dgvFolders
             // 
@@ -181,7 +192,7 @@
             this.dgvFolders.ReadOnly = true;
             this.dgvFolders.RowHeadersVisible = false;
             this.dgvFolders.RowHeadersWidth = 72;
-            this.dgvFolders.Size = new System.Drawing.Size(240, 396);
+            this.dgvFolders.Size = new System.Drawing.Size(240, 381);
             this.dgvFolders.TabIndex = 6;
             this.dgvFolders.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFolders_CellDoubleClick);
             // 
@@ -204,22 +215,24 @@
             this.dgvQueue.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvQueue.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Output,
-            this.Title_ID});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvQueue.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvQueue.Location = new System.Drawing.Point(14, 522);
+            this.Title_ID,
+            this.Remove});
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvQueue.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvQueue.Location = new System.Drawing.Point(14, 501);
             this.dgvQueue.Name = "dgvQueue";
-            this.dgvQueue.ReadOnly = true;
             this.dgvQueue.RowHeadersVisible = false;
             this.dgvQueue.RowHeadersWidth = 72;
-            this.dgvQueue.Size = new System.Drawing.Size(240, 200);
+            this.dgvQueue.Size = new System.Drawing.Size(240, 110);
             this.dgvQueue.TabIndex = 8;
+            this.dgvQueue.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvQueue_CellContentClick);
+            this.dgvQueue.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvQueue_CellEndEdit);
             // 
             // btnConnect
             // 
@@ -264,7 +277,7 @@
             this.dgvIconList.RowHeadersWidth = 72;
             this.dgvIconList.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvIconList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvIconList.Size = new System.Drawing.Size(575, 687);
+            this.dgvIconList.Size = new System.Drawing.Size(575, 714);
             this.dgvIconList.TabIndex = 7;
             this.dgvIconList.Visible = false;
             this.dgvIconList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
@@ -279,8 +292,8 @@
             // 
             // Game
             // 
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Game.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Game.DefaultCellStyle = dataGridViewCellStyle4;
             this.Game.HeaderText = "Icon Name";
             this.Game.MinimumWidth = 9;
             this.Game.Name = "Game";
@@ -326,7 +339,7 @@
             // 
             this.btnAddResize.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddResize.Location = new System.Drawing.Point(94, 34);
-            this.btnAddResize.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddResize.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddResize.Name = "btnAddResize";
             this.btnAddResize.Size = new System.Drawing.Size(77, 24);
             this.btnAddResize.TabIndex = 2;
@@ -396,15 +409,24 @@
             this.flowIcons.AutoScroll = true;
             this.flowIcons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flowIcons.Location = new System.Drawing.Point(260, 64);
-            this.flowIcons.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flowIcons.Margin = new System.Windows.Forms.Padding(2);
             this.flowIcons.Name = "flowIcons";
-            this.flowIcons.Size = new System.Drawing.Size(722, 657);
+            this.flowIcons.Size = new System.Drawing.Size(722, 547);
             this.flowIcons.TabIndex = 19;
             // 
-            // toolStripProgressBar1
+            // cmsTitleID
             // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            this.cmsTitleID.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.cmsTitleID.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.cmsTitleID.Name = "cmsTitleID";
+            this.cmsTitleID.Size = new System.Drawing.Size(155, 26);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(154, 22);
+            this.toolStripMenuItem1.Text = "Change Title ID";
             // 
             // Output
             // 
@@ -418,13 +440,28 @@
             this.Title_ID.HeaderText = "Title ID";
             this.Title_ID.MinimumWidth = 100;
             this.Title_ID.Name = "Title_ID";
-            this.Title_ID.ReadOnly = true;
+            // 
+            // Remove
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            this.Remove.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Remove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Remove.HeaderText = "Del";
+            this.Remove.MinimumWidth = 20;
+            this.Remove.Name = "Remove";
+            this.Remove.ReadOnly = true;
+            this.Remove.Text = "X";
+            this.Remove.ToolTipText = "Remove icon from Queue";
+            this.Remove.Width = 29;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(996, 746);
+            this.ClientSize = new System.Drawing.Size(996, 636);
             this.Controls.Add(this.flowIcons);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnZoomIn);
@@ -452,6 +489,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvFolders)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQueue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIconList)).EndInit();
+            this.cmsTitleID.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -489,8 +527,11 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.FlowLayoutPanel flowIcons;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ContextMenuStrip cmsTitleID;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Output;
         private System.Windows.Forms.DataGridViewTextBoxColumn Title_ID;
+        private System.Windows.Forms.DataGridViewButtonColumn Remove;
     }
 }
 
