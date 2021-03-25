@@ -163,6 +163,8 @@
     <Content Include="MediaDevicesLicense.txt" />
     <None Include="Resources\About.bmp" />
     <None Include="Resources\About.png" />
+    <None Include="Resources\ZoomOut.png" />
+    <None Include="Resources\ZoomIn.png" />
     <Content Include="switch-cartridge-1698286-1456469.ico" />
     <None Include="Images\Vertical.jpg" />
     <None Include="Images\Default.jpg" />

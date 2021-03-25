@@ -82,5 +82,17 @@ namespace NX_GIC.Properties {
                 this["OfflineStatus"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string csvInstalled {
+            get {
+                return ((string)(this["csvInstalled"]));
+            }
+            set {
+                this["csvInstalled"] = value;
+            }
+        }
     }
 }

@@ -1,25 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Octokit;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
-using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
 using System.Text.RegularExpressions;
 
 namespace NX_GIC
 {
     public partial class Main : Form
     {
-        string localVer = "1.2.0";
+        string localVer = "1.3.0";
 
         string path = Directory.GetCurrentDirectory();
         string selectedPath = "";
@@ -29,6 +25,7 @@ namespace NX_GIC
         bool offlineMode = Properties.Settings.Default.OfflineStatus;
         bool moveFiles = false;
         decimal zoomLvl = Properties.Settings.Default.ZoomLevel;
+        string csvPath = Properties.Settings.Default.csvInstalled;
 
         public Main()
         {
@@ -39,6 +36,7 @@ namespace NX_GIC
                 toolStripStatusLabel1.Text = "Offline";
 
             this.Text += " - v" + localVer;
+
         }
 
         private async void VerCheck()
@@ -79,6 +77,7 @@ namespace NX_GIC
 
         private async Task DownloadFromGitHubRepo()
         {
+            toolStripStatusLabel1.Text = "Downloading...";
             toolStripProgressBar1.Visible = true;
             toolStripProgressBar1.Value = 5;
             Cursor.Current = Cursors.WaitCursor;
@@ -99,6 +98,7 @@ namespace NX_GIC
                 //Download/Extract if new
                 if (!File.Exists(path + @"\" + fileName))
                 {
+                    toolStripStatusLabel1.Text = "Extracting...";
                     toolStripProgressBar1.Value = 25;
                     //Download Latest Zip/Tag
                     using (var clientWeb = new WebClient())
@@ -109,6 +109,7 @@ namespace NX_GIC
                     toolStripProgressBar1.Value = 50;
                     //Extract zip file
                     ZipFile.ExtractToDirectory(fileName, path);
+                    toolStripStatusLabel1.Text = "Organizing Folders...";
                     toolStripProgressBar1.Value = 75;
                     //Delete the zip file to save space
                     File.Delete(path + @"\" + fileName);
@@ -124,6 +125,7 @@ namespace NX_GIC
                         if (fi.Name != fileName)
                             File.Delete(path + @"\" + fi.Name);
                     }
+                    toolStripStatusLabel1.Text = "Clean up...";
                     toolStripProgressBar1.Value = 90;
                 }
             }
@@ -151,6 +153,7 @@ namespace NX_GIC
             }
             toolStripProgressBar1.Value = 100;
             toolStripProgressBar1.Visible = false;
+            toolStripStatusLabel1.Text = "Ready";
         }
 
         //Copy Downloaded Repo folders into one; Main
@@ -229,32 +232,17 @@ namespace NX_GIC
         //Populate all available icons in the grid
         public void DisplayIcons(decimal zoom)
         {
-            //Change Image Layout depending on folder selection
-            DataGridViewImageColumn imgCol = (DataGridViewImageColumn)dgvIconList.Columns[0];
-            dgvIconList.RowTemplate.Height = Convert.ToInt32(256 * zoom);
-
+            //Set the Icon Size
+            int iconSize = 0;
             if (cmbSubfolders.SelectedItem.ToString() == "Vertical")
-            {
-                imgCol.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                imgCol.Width = Convert.ToInt32(155 * zoom);
-            }
+                iconSize = Convert.ToInt32(155 * zoom);
             else if (cmbSubfolders.SelectedItem.ToString() == "Horizontal")
-            {
-                imgCol.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                imgCol.Width = Convert.ToInt32(397 * zoom);
-            }
+                iconSize = Convert.ToInt32(397 * zoom);
             else
-            {
-                imgCol.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                imgCol.Width = Convert.ToInt32(256 * zoom);
-            }
+                iconSize = Convert.ToInt32(256 * zoom);
 
             iconFolder = subPath + "\\" + dgvFolders.SelectedCells[0].Value;
 
-            dgvIconList.AllowUserToAddRows = true;
-            dgvIconList.Rows.Clear();
-            dgvIconList.DataSource = null;
-            
             flowIcons.Controls.Clear();
 
             string[] fileEntries = Directory.GetFiles(iconFolder);
@@ -274,26 +262,17 @@ namespace NX_GIC
                         splitFileName[2 - 1] = "0";   //Missing Title ID
                     }
 
-                    //Insert row into DataGridView
-                    DataGridViewRow row = (DataGridViewRow)dgvIconList.Rows[0].Clone();
-                    row.Cells[0].Value = Image.FromFile(dir_info.ToString());
-                    row.Cells[1].Value = splitFileName[0].Replace('-', ' ').Trim(); //Game Name
-                    row.Cells[2].Value = splitFileName[1]; //TitleID
-                    row.Cells[3].Value = dir_info;
-                    dgvIconList.Rows.Insert(dgvIconList.Rows.Count - 1, row);
-
                     //Populate the Flow Panel
                     PictureBox pbIcon = new PictureBox();
                     pbIcon.ImageLocation = dir_info.ToString();
                     pbIcon.Name = splitFileName[0].Replace('-', ' ').Trim();
                     pbIcon.Tag = splitFileName[1];
-                    pbIcon.Size = new Size(imgCol.Width, Convert.ToInt32(256 * zoom));
+                    pbIcon.Size = new Size(iconSize, Convert.ToInt32(256 * zoom));
                     pbIcon.SizeMode = PictureBoxSizeMode.StretchImage;
                     pbIcon.DoubleClick += new EventHandler(this.iconClicked);
                     flowIcons.Controls.Add(pbIcon);
                 }
             }
-            dgvIconList.AllowUserToAddRows = false;
         }
 
         //When a picture is double clicked
@@ -308,19 +287,6 @@ namespace NX_GIC
             File.Copy(copyPath, PastePath + "\\icon.jpg", true);
             //Add Name to dgvQueue
             dgvQueue.Rows.Add(pb.Name, pb.Tag);
-        }
-
-        // (dgvIconList) Icon Double Click = Copy to OUTPUT folder
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            //Copy current selected image
-            string copyPath = dgvIconList.Rows[e.RowIndex].Cells[3].Value.ToString();
-            string PastePath = path + "\\Output\\" + dgvIconList.Rows[e.RowIndex].Cells[2].Value.ToString();
-            Directory.CreateDirectory(PastePath);
-            //Paste & Rename @ ..\Output\{Title ID}\icon.jpg
-            File.Copy(copyPath, PastePath + "\\icon.jpg", true);
-            //Add Name to dgvQueue
-            dgvQueue.Rows.Add(dgvIconList.Rows[e.RowIndex].Cells[1].Value);
         }
 
         private void cmbRepo_SelectedIndexChanged(object sender, EventArgs e)
@@ -419,12 +385,12 @@ namespace NX_GIC
         private void settingsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Settings frmSettings = new Settings();
-            frmSettings.Show();
+            frmSettings.ShowDialog();
         }
 
         private void btnZoomOut_Click(object sender, EventArgs e)
         {
-            if (dgvIconList.Rows.Count > 0)
+            if (flowIcons.Controls.Count > 0)
             {
                 zoomLvl -= 0.25m;
                 Properties.Settings.Default.ZoomLevel = zoomLvl;
@@ -435,7 +401,7 @@ namespace NX_GIC
 
         private void btnZoomIn_Click(object sender, EventArgs e)
         {
-            if (dgvIconList.Rows.Count > 0)
+            if (flowIcons.Controls.Count > 0)
             {
                 zoomLvl += 0.25m;
                 Properties.Settings.Default.ZoomLevel = zoomLvl;
@@ -478,14 +444,23 @@ namespace NX_GIC
 
         }
 
-        //Queue - Remove record
+        //Queue | Output - Buttons
         private void dgvQueue_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            //Delete
             origTitleID = dgvQueue.Rows[e.RowIndex].Cells[1].Value.ToString();
-            int index = dgvQueue.Columns[2].Index;
-            if (e.ColumnIndex == index && e.RowIndex >= 0)
+            int indexView = dgvQueue.Columns[5].Index;
+            int indexDel = dgvQueue.Columns[6].Index;
+            string titleID = dgvQueue.Rows[e.RowIndex].Cells[1].Value.ToString();
+
+            if (e.ColumnIndex == indexView && e.RowIndex >= 0)
             {
-                string titleID = dgvQueue.Rows[e.RowIndex].Cells[1].Value.ToString();
+                System.Diagnostics.Process.Start(path + @"\Output\" + titleID + @"\icon.jpg");
+            }
+
+            if (e.ColumnIndex == indexDel && e.RowIndex >= 0)
+            {
+                
                 Directory.Delete(path + @"\Output\" + titleID, true);
                 dgvQueue.Rows.RemoveAt(e.RowIndex);
             }
@@ -494,18 +469,163 @@ namespace NX_GIC
         //Queue - Title ID Change
         private void dgvQueue_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            int indexTid = dgvQueue.Columns[1].Index;
+            int indexTname = dgvQueue.Columns[2].Index;
+            int indexAuthor = dgvQueue.Columns[3].Index;
+            int indexVer = dgvQueue.Columns[4].Index;
+
             string titleID = dgvQueue.Rows[e.RowIndex].Cells[1].Value.ToString();
-            if (titleID.Length != 16)
+
+            //Title ID Change
+            if (e.ColumnIndex == indexTid && e.RowIndex >= 0)
             {
-                MessageBox.Show("Title ID needs to be exactly 16 characters", "Incorrect Title ID", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                dgvQueue.Rows[e.RowIndex].Cells[1].Value = origTitleID;
-                return;
+                if (titleID.Length != 16)
+                {
+                    MessageBox.Show("Title ID needs to be exactly 16 characters", "Incorrect Title ID", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    dgvQueue.Rows[e.RowIndex].Cells[1].Value = origTitleID;
+                    return;
+                }
+                else
+                {
+                    if (origTitleID != titleID)
+                        Directory.Move(path + @"\Output\" + origTitleID, path + @"\Output\" + titleID);
+                }
+            }
+            if (e.ColumnIndex == indexTname && e.RowIndex >= 0)
+            {
+                //If config.ini exists
+                //else create
+
+                //Add/Update Title Name
+            }
+            if (e.ColumnIndex == indexAuthor && e.RowIndex >= 0)
+            {
+                //If config.ini exists
+                //else create
+
+                //Add/Update Title Name
+            }
+            if (e.ColumnIndex == indexVer && e.RowIndex >= 0)
+            {
+                //If config.ini exists
+                //else create
+
+                //Add/Update Title Name
+            }
+        }
+
+        private void showIconsForInstalledGamesOnlyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!showIconsForInstalledGamesOnlyToolStripMenuItem.Checked)
+            {
+                csvCheck();
+                csvLoad();
+                showIconsForInstalledGamesOnlyToolStripMenuItem.Checked = true;
             }
             else
+                showIconsForInstalledGamesOnlyToolStripMenuItem.Checked = false;
+
+            if (flowIcons.Controls.Count > 0)
+                DisplayIcons(zoomLvl);
+        }
+
+        private void tutorialToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/sodasoba1/NSW-Custom-Game-Icons/blob/main/README.md");
+        }
+
+        public void csvCheck()
+        {
+            DialogResult csvDialog = MessageBox.Show("Installed Games list (.csv) not found, do you want to browse?",
+                    "CSV Not Found",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+            if (csvDialog == DialogResult.OK)
             {
-                if (origTitleID != titleID)
-                    Directory.Move(path + @"\Output\" + origTitleID, path + @"\Output\" + titleID);
+                //Pop up browse dialog
+                ofdCsv.InitialDirectory = Directory.GetCurrentDirectory();
+                ofdCsv.Title = "Browse Titles CSV";
+                ofdCsv.DefaultExt = "csv";
+                ofdCsv.Filter = "csv file (*.csv)|*.csv";
+
+                if (ofdCsv.ShowDialog() == DialogResult.OK)
+                {
+                    //Delete existing (outdated) titles file
+                    if (File.Exists(path + @"\titles.csv"))
+                        File.Delete(path + @"\titles.csv");
+                    //Copy where ever the file was found and save under nxGIC directory
+                    File.Copy(ofdCsv.FileName, path + @"\titles.csv");
+                    Properties.Settings.Default.csvInstalled = path + @"\" + ofdCsv.SafeFileName;
+                    csvPath = ofdCsv.FileName;
+                    Properties.Settings.Default.Save();
+                }
             }
+            else
+                return;
+        }
+        public void csvLoad()
+        {
+            DataTable dtCSV = new DataTable();
+            using (StreamReader sr = new StreamReader(csvPath))
+            {
+                string[] headers = sr.ReadLine().Split('|');
+                foreach (string header in headers)
+                {
+                    dtCSV.Columns.Add(header);
+                }
+                while (!sr.EndOfStream)
+                {
+                    string[] rows = sr.ReadLine().Split('|');
+                    DataRow dr = dtCSV.NewRow();
+                    for (int i = 0; i < headers.Length; i++)
+                    {
+                        dr[i] = rows[i];
+                    }
+                    dtCSV.Rows.Add(dr);
+                }
+            }
+            dgvInstalled.DataSource = null;
+            dgvInstalled.Rows.Clear();
+            dgvInstalled.Columns.Clear();
+            dgvInstalled.DataSource = dtCSV;
+            dgvInstalled.Columns.Add("Match", "Match");
+            DataGridViewButtonColumn btnRem = new DataGridViewButtonColumn();
+            dgvInstalled.Columns.Add(btnRem);
+            btnRem.HeaderText = "Skip";
+            btnRem.Text = "X";
+            btnRem.Name = "btn";
+            btnRem.UseColumnTextForButtonValue = true;
+            dgvInstalled.Columns["btn"].Width = 40;
+            dgvInstalled.Columns[0].Width = 120;
+            dgvInstalled.Sort(dgvInstalled.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
+        }
+
+        private void btnInsIds_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.csvInstalled == "")
+            {
+                csvCheck();
+            }
+            csvLoad();
+            dgvInstalled.Visible = true;
+            flowIcons.Size = new Size(631, 431);
+
+            btnAutoGic.Enabled = true;
+        }
+
+        private void btnAutoGic_Click(object sender, EventArgs e)
+        {
+            btnAddtoOut.Enabled = true;
+            foreach (DataGridView row in dgvInstalled.Rows)
+            {
+                
+                //dgvInstalled.Rows[x].Cells[2].Value = "Test";
+            }
+        }
+
+        private void btnAddtoOut_Click(object sender, EventArgs e)
+        {
+            //For each record in dgvInstalled
+            //Copy to Output
         }
     }
 }
