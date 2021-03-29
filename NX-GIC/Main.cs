@@ -24,8 +24,10 @@ namespace NX_GIC
         string origTitleID = "";
         bool offlineMode = Properties.Settings.Default.OfflineStatus;
         bool moveFiles = false;
+        bool gicMode = false;
         decimal zoomLvl = Properties.Settings.Default.ZoomLevel;
         string csvPath = Properties.Settings.Default.csvInstalled;
+        DataTable dtCSV = new DataTable();
 
         public Main()
         {
@@ -190,8 +192,10 @@ namespace NX_GIC
         private async void btnConnect_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            //Create OUTPUT & Main folder if they don't exist
-            if (!Directory.Exists(path + "\\Output"))  Directory.CreateDirectory(path + "\\Output");
+            //Clear previous Queue/Output and Create new
+            if (Directory.Exists(path + "\\Output")) Directory.Delete(path + "\\Output", true);
+            Directory.CreateDirectory(path + "\\Output");
+            //Create Main folder if it doesn't exist
             if (!Directory.Exists(path + "\\Main")) Directory.CreateDirectory(path + "\\Main");
 
             //Check updates and download icons from Github
@@ -262,15 +266,39 @@ namespace NX_GIC
                         splitFileName[2 - 1] = "0";   //Missing Title ID
                     }
 
-                    //Populate the Flow Panel
-                    PictureBox pbIcon = new PictureBox();
-                    pbIcon.ImageLocation = dir_info.ToString();
-                    pbIcon.Name = splitFileName[0].Replace('-', ' ').Trim();
-                    pbIcon.Tag = splitFileName[1];
-                    pbIcon.Size = new Size(iconSize, Convert.ToInt32(256 * zoom));
-                    pbIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-                    pbIcon.DoubleClick += new EventHandler(this.iconClicked);
-                    flowIcons.Controls.Add(pbIcon);
+                    if (showIconsForInstalledGamesOnlyToolStripMenuItem.Checked)
+                    {
+                        foreach (DataRow csvRow in dtCSV.Rows)
+                        {
+                            Console.WriteLine(csvRow.ItemArray[0]);
+
+                            if (splitFileName[1].ToString() == csvRow.ItemArray[0].ToString())
+                            {
+                                PictureBox pbIcon = new PictureBox();
+                                pbIcon.ImageLocation = dir_info.ToString();
+                                pbIcon.Name = splitFileName[0].Replace('-', ' ').Trim();
+                                pbIcon.Tag = splitFileName[1];
+                                pbIcon.Size = new Size(iconSize, Convert.ToInt32(256 * zoom));
+                                pbIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+                                pbIcon.DoubleClick += new EventHandler(this.iconClicked);
+                                flowIcons.Controls.Add(pbIcon);
+                                break;
+                            }
+                            
+                        }
+                    }
+                    else
+                    {
+                        //Populate the Flow Panel
+                        PictureBox pbIcon = new PictureBox();
+                        pbIcon.ImageLocation = dir_info.ToString();
+                        pbIcon.Name = splitFileName[0].Replace('-', ' ').Trim();
+                        pbIcon.Tag = splitFileName[1];
+                        pbIcon.Size = new Size(iconSize, Convert.ToInt32(256 * zoom));
+                        pbIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+                        pbIcon.DoubleClick += new EventHandler(this.iconClicked);
+                        flowIcons.Controls.Add(pbIcon);
+                    }
                 }
             }
         }
@@ -518,7 +546,8 @@ namespace NX_GIC
         {
             if (!showIconsForInstalledGamesOnlyToolStripMenuItem.Checked)
             {
-                csvCheck();
+                if (csvPath == "")
+                    csvCheck();
                 csvLoad();
                 showIconsForInstalledGamesOnlyToolStripMenuItem.Checked = true;
             }
@@ -564,7 +593,8 @@ namespace NX_GIC
         }
         public void csvLoad()
         {
-            DataTable dtCSV = new DataTable();
+            dtCSV.Clear();
+            dtCSV = new DataTable();
             using (StreamReader sr = new StreamReader(csvPath))
             {
                 string[] headers = sr.ReadLine().Split('|');
@@ -588,44 +618,182 @@ namespace NX_GIC
             dgvInstalled.Columns.Clear();
             dgvInstalled.DataSource = dtCSV;
             dgvInstalled.Columns.Add("Match", "Match");
+            dgvInstalled.Columns.Add("Path", "Path");
+            dgvInstalled.Columns["Path"].Visible = false;
+            dgvInstalled.Columns[0].Width = 120;    //Title ID
+            dgvInstalled.Columns[1].Width = 200;    //Title Name
+            dgvInstalled.Columns["Match"].Width = 50;
+
+
+            DataGridViewButtonColumn btnAdd = new DataGridViewButtonColumn();
+            dgvInstalled.Columns.Add(btnAdd);
+            btnAdd.HeaderText = "Add";
+            btnAdd.Text = "+";
+            btnAdd.Name = "btnAdd";
+            btnAdd.UseColumnTextForButtonValue = true;
+            //pbIcon.DoubleClick += new EventHandler(this.iconClicked);
+            dgvInstalled.Columns["btnAdd"].Width = 40;
+
             DataGridViewButtonColumn btnRem = new DataGridViewButtonColumn();
             dgvInstalled.Columns.Add(btnRem);
             btnRem.HeaderText = "Skip";
             btnRem.Text = "X";
-            btnRem.Name = "btn";
+            btnRem.Name = "btnRem";
             btnRem.UseColumnTextForButtonValue = true;
-            dgvInstalled.Columns["btn"].Width = 40;
-            dgvInstalled.Columns[0].Width = 120;
+            dgvInstalled.Columns["btnRem"].Width = 40;
+
+
             dgvInstalled.Sort(dgvInstalled.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
-        }
-
-        private void btnInsIds_Click(object sender, EventArgs e)
-        {
-            if (Properties.Settings.Default.csvInstalled == "")
-            {
-                csvCheck();
-            }
-            csvLoad();
-            dgvInstalled.Visible = true;
-            flowIcons.Size = new Size(631, 431);
-
-            btnAutoGic.Enabled = true;
         }
 
         private void btnAutoGic_Click(object sender, EventArgs e)
         {
-            btnAddtoOut.Enabled = true;
-            foreach (DataGridView row in dgvInstalled.Rows)
+            if (!gicMode)
             {
-                
-                //dgvInstalled.Rows[x].Cells[2].Value = "Test";
+                if (Properties.Settings.Default.csvInstalled == "")
+                {
+                    csvCheck();
+                }
+                csvLoad();
+                dgvInstalled.Visible = true;
+                flowIcons.Visible = false;
+                dgvInstalled.Size = new Size(flowIcons.Size.Width + 82, flowIcons.Size.Height - 33);
+                dgvInstalled.Location = new System.Drawing.Point(14, 97);
+                btnAutoGic.BackColor = Color.SteelBlue;
+                label2.Visible = false;
+                cmbSubfolders.Visible = false;
+                gicMode = true;
+                btnAddtoOut.Visible = true;
+                btnReloadCSV.Visible = true;
+                cmbAutoStyle.Visible = true;
+            }
+            else
+            {
+                dgvInstalled.Visible = false;
+                flowIcons.Visible = true;
+                btnAutoGic.BackColor = Color.FromName("Control");
+                label2.Visible = true;
+                cmbSubfolders.Visible = true;
+                gicMode = false;
+                btnAddtoOut.Visible = false;
+                btnReloadCSV.Visible = false;
+                cmbAutoStyle.Visible = false;
+            }
+
+            string[] subdirectoryEntries = Directory.GetDirectories(path + @"\Main");
+
+            if (subdirectoryEntries.Length > 0)
+            {
+                cmbAutoStyle.Items.Clear();
+                cmbAutoStyle.Text = "<Select Icon Style>";
+                for (int x = 0; x < subdirectoryEntries.Length; x++)
+                {
+                    DirectoryInfo dir_info = new DirectoryInfo(subdirectoryEntries[x]);
+                    string directory = dir_info.Name;
+                    //Ignore folders starting with . (i.e. .git) and exclude Themes folder
+                    if (directory.Substring(0, 1) != "." &&
+                        !directory.Contains("Themes"))
+                        cmbAutoStyle.Items.Add(directory);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No icon folders found under Main directory\n\nRun Scan in Online mode to download icons first", "No Icons found", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        private void AutoGIC(string iconStyle)
+        {
+
+            foreach (DataGridViewRow row in dgvInstalled.Rows)
+            {
+                //Clear any previous matches
+                row.Cells["Match"].Value = "";
+                //Go through each folder in MAIN / <selected style> and check if match is found
+                var iconArr = Directory.GetFiles(path + @"\Main\" + iconStyle, 
+                    "*" + row.Cells["Title ID"].Value  + "*", SearchOption.AllDirectories);
+
+                //randomly pick one from the array
+
+                //Indicate if Match was Found
+                if (iconArr.Length > 0)
+                {
+                    Random rand = new Random();
+                    int randId = rand.Next(iconArr.Length);
+                    row.Cells["Match"].Value = "Found";
+                    //Add icon file path to a hidden column 
+                    row.Cells["Path"].Value = iconArr[randId].ToString();
+                }
+            }
+        }
+
+        //Auto GIC - 1 Click to Add all Matched icons to Queue
         private void btnAddtoOut_Click(object sender, EventArgs e)
         {
-            //For each record in dgvInstalled
-            //Copy to Output
+            foreach (DataGridViewRow row in dgvInstalled.Rows)
+            {
+                if (row.Cells["Match"].Value.ToString() == "Found")
+                {
+                    //Send to Queue
+                    string copyPath = row.Cells["Path"].Value.ToString();
+                    string PastePath = path + "\\Output\\" + row.Cells["Title ID"].Value.ToString();
+                    Directory.CreateDirectory(PastePath);
+                    //Paste & Rename @ ..\Output\{Title ID}\icon.jpg
+                    File.Copy(copyPath, PastePath + "\\icon.jpg", true);
+                    //Add Name to dgvQueue
+                    dgvQueue.Rows.Add(row.Cells["Title Name"].Value.ToString(),
+                        row.Cells["Title ID"].Value.ToString());
+                }   
+            }
+        }
+
+        private void viewInstalledGamesListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //New form, display Title ID List
+            //use .Show (not .ShowDialog)
+            //use taskbar icon from HamletDuFromage Title Dumper
+        }
+
+        private void btnReloadCSV_Click(object sender, EventArgs e)
+        {
+            csvPath = "";
+            Properties.Settings.Default.csvInstalled = "";
+            Properties.Settings.Default.Save();
+            csvCheck();
+            csvLoad();
+        }
+
+        private void cmbAutoStyle_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            AutoGIC(cmbAutoStyle.SelectedItem.ToString());
+        }
+
+        private void dgvInstalled_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int indexAdd = dgvInstalled.Columns["btnAdd"].Index;
+            int indexRem = dgvInstalled.Columns["btnRem"].Index;
+
+            //Single add icon to Transfer Queue
+            if (e.ColumnIndex == indexAdd && e.RowIndex >= 0)
+            {
+                if (dgvInstalled.Rows[e.RowIndex].Cells["Match"].Value.ToString() == "Found")
+                {
+                    //Send to Queue
+                    string copyPath = dgvInstalled.Rows[e.RowIndex].Cells["Path"].Value.ToString();
+                    string PastePath = path + "\\Output\\" + dgvInstalled.Rows[e.RowIndex].Cells["Title ID"].Value.ToString();
+                    Directory.CreateDirectory(PastePath);
+                    //Paste & Rename @ ..\Output\{Title ID}\icon.jpg
+                    File.Copy(copyPath, PastePath + "\\icon.jpg", true);
+                    //Add Name to dgvQueue
+                    dgvQueue.Rows.Add(dgvInstalled.Rows[e.RowIndex].Cells["Title Name"].Value.ToString(),
+                        dgvInstalled.Rows[e.RowIndex].Cells["Title ID"].Value.ToString());
+                }
+            }
+            //Remove record is X is clicked
+            if (e.ColumnIndex == indexRem && e.RowIndex >= 0)
+            {
+                dgvInstalled.Rows.RemoveAt(e.RowIndex);
+            }
         }
     }
 }

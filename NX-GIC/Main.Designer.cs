@@ -43,6 +43,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showIconsForInstalledGamesOnlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewInstalledGamesListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tutorialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,7 +79,8 @@
             this.dgvInstalled = new System.Windows.Forms.DataGridView();
             this.btnAutoGic = new System.Windows.Forms.Button();
             this.btnAddtoOut = new System.Windows.Forms.Button();
-            this.btnInsIds = new System.Windows.Forms.Button();
+            this.btnReloadCSV = new System.Windows.Forms.Button();
+            this.cmbAutoStyle = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFolders)).BeginInit();
@@ -142,7 +144,8 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showIconsForInstalledGamesOnlyToolStripMenuItem});
+            this.showIconsForInstalledGamesOnlyToolStripMenuItem,
+            this.viewInstalledGamesListToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
@@ -153,6 +156,14 @@
             this.showIconsForInstalledGamesOnlyToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
             this.showIconsForInstalledGamesOnlyToolStripMenuItem.Text = "Show Icons for Installed Games only";
             this.showIconsForInstalledGamesOnlyToolStripMenuItem.Click += new System.EventHandler(this.showIconsForInstalledGamesOnlyToolStripMenuItem_Click);
+            // 
+            // viewInstalledGamesListToolStripMenuItem
+            // 
+            this.viewInstalledGamesListToolStripMenuItem.Name = "viewInstalledGamesListToolStripMenuItem";
+            this.viewInstalledGamesListToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
+            this.viewInstalledGamesListToolStripMenuItem.Text = "Show Installed Games List";
+            this.viewInstalledGamesListToolStripMenuItem.Visible = false;
+            this.viewInstalledGamesListToolStripMenuItem.Click += new System.EventHandler(this.viewInstalledGamesListToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -239,7 +250,7 @@
             this.dgvFolders.RowHeadersVisible = false;
             this.dgvFolders.RowHeadersWidth = 72;
             this.dgvFolders.Size = new System.Drawing.Size(77, 388);
-            this.dgvFolders.TabIndex = 6;
+            this.dgvFolders.TabIndex = 8;
             this.dgvFolders.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFolders_CellDoubleClick);
             // 
             // Folder
@@ -285,7 +296,7 @@
             this.dgvQueue.RowHeadersVisible = false;
             this.dgvQueue.RowHeadersWidth = 72;
             this.dgvQueue.Size = new System.Drawing.Size(968, 110);
-            this.dgvQueue.TabIndex = 8;
+            this.dgvQueue.TabIndex = 13;
             this.dgvQueue.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvQueue_CellContentClick);
             this.dgvQueue.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvQueue_CellEndEdit);
             // 
@@ -381,16 +392,17 @@
             this.cmbSubfolders.Location = new System.Drawing.Point(14, 80);
             this.cmbSubfolders.Name = "cmbSubfolders";
             this.cmbSubfolders.Size = new System.Drawing.Size(77, 21);
-            this.cmbSubfolders.TabIndex = 5;
+            this.cmbSubfolders.TabIndex = 7;
+            this.cmbSubfolders.Text = "<Hit Scan>";
             this.cmbSubfolders.SelectedIndexChanged += new System.EventHandler(this.cmbSubfolders_SelectedIndexChanged);
             // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(178, 34);
+            this.button1.Location = new System.Drawing.Point(250, 34);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(77, 25);
-            this.button1.TabIndex = 3;
+            this.button1.TabIndex = 4;
             this.button1.Text = "Transfer";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -432,36 +444,39 @@
             // 
             // btnZoomOut
             // 
+            this.btnZoomOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnZoomOut.BackgroundImage = global::NX_GIC.Properties.Resources.ZoomOut;
             this.btnZoomOut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.btnZoomOut.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnZoomOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnZoomOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnZoomOut.Location = new System.Drawing.Point(284, 34);
+            this.btnZoomOut.Location = new System.Drawing.Point(888, 34);
             this.btnZoomOut.Name = "btnZoomOut";
             this.btnZoomOut.Size = new System.Drawing.Size(25, 25);
-            this.btnZoomOut.TabIndex = 16;
+            this.btnZoomOut.TabIndex = 5;
             this.btnZoomOut.UseVisualStyleBackColor = true;
             this.btnZoomOut.Click += new System.EventHandler(this.btnZoomOut_Click);
             // 
             // btnZoomIn
             // 
+            this.btnZoomIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnZoomIn.BackgroundImage = global::NX_GIC.Properties.Resources.ZoomIn;
             this.btnZoomIn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.btnZoomIn.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnZoomIn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnZoomIn.Location = new System.Drawing.Point(353, 34);
+            this.btnZoomIn.Location = new System.Drawing.Point(957, 34);
             this.btnZoomIn.Name = "btnZoomIn";
             this.btnZoomIn.Size = new System.Drawing.Size(25, 25);
-            this.btnZoomIn.TabIndex = 17;
+            this.btnZoomIn.TabIndex = 6;
             this.btnZoomIn.UseVisualStyleBackColor = true;
             this.btnZoomIn.Click += new System.EventHandler(this.btnZoomIn_Click);
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(311, 40);
+            this.label3.Location = new System.Drawing.Point(915, 40);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
@@ -479,7 +494,7 @@
             this.flowIcons.Margin = new System.Windows.Forms.Padding(2);
             this.flowIcons.Name = "flowIcons";
             this.flowIcons.Size = new System.Drawing.Size(886, 431);
-            this.flowIcons.TabIndex = 19;
+            this.flowIcons.TabIndex = 9;
             // 
             // cmsTitleID
             // 
@@ -505,7 +520,8 @@
             this.dgvInstalled.AllowUserToDeleteRows = false;
             this.dgvInstalled.AllowUserToResizeColumns = false;
             this.dgvInstalled.AllowUserToResizeRows = false;
-            this.dgvInstalled.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dgvInstalled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvInstalled.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgvInstalled.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
@@ -516,50 +532,61 @@
             this.dgvInstalled.ReadOnly = true;
             this.dgvInstalled.RowHeadersVisible = false;
             this.dgvInstalled.Size = new System.Drawing.Size(250, 431);
-            this.dgvInstalled.TabIndex = 20;
+            this.dgvInstalled.TabIndex = 12;
             this.dgvInstalled.Visible = false;
+            this.dgvInstalled.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInstalled_CellContentClick);
             // 
             // btnAutoGic
             // 
-            this.btnAutoGic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAutoGic.Enabled = false;
-            this.btnAutoGic.Location = new System.Drawing.Point(821, 34);
+            this.btnAutoGic.Location = new System.Drawing.Point(178, 34);
             this.btnAutoGic.Name = "btnAutoGic";
             this.btnAutoGic.Size = new System.Drawing.Size(66, 25);
-            this.btnAutoGic.TabIndex = 21;
+            this.btnAutoGic.TabIndex = 3;
             this.btnAutoGic.Text = "Auto GIC";
             this.btnAutoGic.UseVisualStyleBackColor = true;
             this.btnAutoGic.Click += new System.EventHandler(this.btnAutoGic_Click);
             // 
             // btnAddtoOut
             // 
-            this.btnAddtoOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddtoOut.Enabled = false;
-            this.btnAddtoOut.Location = new System.Drawing.Point(893, 34);
+            this.btnAddtoOut.Location = new System.Drawing.Point(224, 64);
             this.btnAddtoOut.Name = "btnAddtoOut";
-            this.btnAddtoOut.Size = new System.Drawing.Size(89, 25);
-            this.btnAddtoOut.TabIndex = 22;
-            this.btnAddtoOut.Text = "Add to Output";
+            this.btnAddtoOut.Size = new System.Drawing.Size(103, 25);
+            this.btnAddtoOut.TabIndex = 11;
+            this.btnAddtoOut.Text = "Add All to Output";
             this.btnAddtoOut.UseVisualStyleBackColor = true;
+            this.btnAddtoOut.Visible = false;
             this.btnAddtoOut.Click += new System.EventHandler(this.btnAddtoOut_Click);
             // 
-            // btnInsIds
+            // btnReloadCSV
             // 
-            this.btnInsIds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnInsIds.Location = new System.Drawing.Point(732, 34);
-            this.btnInsIds.Name = "btnInsIds";
-            this.btnInsIds.Size = new System.Drawing.Size(83, 25);
-            this.btnInsIds.TabIndex = 23;
-            this.btnInsIds.Text = "Installed IDs";
-            this.btnInsIds.UseVisualStyleBackColor = true;
-            this.btnInsIds.Click += new System.EventHandler(this.btnInsIds_Click);
+            this.btnReloadCSV.Location = new System.Drawing.Point(129, 64);
+            this.btnReloadCSV.Name = "btnReloadCSV";
+            this.btnReloadCSV.Size = new System.Drawing.Size(89, 25);
+            this.btnReloadCSV.TabIndex = 10;
+            this.btnReloadCSV.Text = "Reload CSV";
+            this.btnReloadCSV.UseVisualStyleBackColor = true;
+            this.btnReloadCSV.Visible = false;
+            this.btnReloadCSV.Click += new System.EventHandler(this.btnReloadCSV_Click);
+            // 
+            // cmbAutoStyle
+            // 
+            this.cmbAutoStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbAutoStyle.FormattingEnabled = true;
+            this.cmbAutoStyle.Location = new System.Drawing.Point(14, 67);
+            this.cmbAutoStyle.Name = "cmbAutoStyle";
+            this.cmbAutoStyle.Size = new System.Drawing.Size(109, 21);
+            this.cmbAutoStyle.TabIndex = 19;
+            this.cmbAutoStyle.Text = "<Select Icon Style>";
+            this.cmbAutoStyle.Visible = false;
+            this.cmbAutoStyle.SelectedIndexChanged += new System.EventHandler(this.cmbAutoStyle_SelectedIndexChanged);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(996, 636);
-            this.Controls.Add(this.btnInsIds);
+            this.Controls.Add(this.cmbAutoStyle);
+            this.Controls.Add(this.btnReloadCSV);
             this.Controls.Add(this.btnAddtoOut);
             this.Controls.Add(this.btnAutoGic);
             this.Controls.Add(this.dgvInstalled);
@@ -640,7 +667,9 @@
         private System.Windows.Forms.DataGridView dgvInstalled;
         private System.Windows.Forms.Button btnAutoGic;
         private System.Windows.Forms.Button btnAddtoOut;
-        private System.Windows.Forms.Button btnInsIds;
+        private System.Windows.Forms.ToolStripMenuItem viewInstalledGamesListToolStripMenuItem;
+        private System.Windows.Forms.Button btnReloadCSV;
+        private System.Windows.Forms.ComboBox cmbAutoStyle;
     }
 }
 
