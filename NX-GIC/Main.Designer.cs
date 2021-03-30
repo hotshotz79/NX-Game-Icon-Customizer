@@ -33,8 +33,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,6 +44,8 @@
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showIconsForInstalledGamesOnlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewInstalledGamesListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.installNXTitlesListDumperNROToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tutorialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,13 +57,6 @@
             this.dgvFolders = new System.Windows.Forms.DataGridView();
             this.Folder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvQueue = new System.Windows.Forms.DataGridView();
-            this.Output = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Title_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CustomTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CustomAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CustomVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.View = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Remove = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btnConnect = new System.Windows.Forms.Button();
             this.cmbRepo = new System.Windows.Forms.ComboBox();
             this.cmbSubfolders = new System.Windows.Forms.ComboBox();
@@ -81,6 +76,13 @@
             this.btnAddtoOut = new System.Windows.Forms.Button();
             this.btnReloadCSV = new System.Windows.Forms.Button();
             this.cmbAutoStyle = new System.Windows.Forms.ComboBox();
+            this.Output = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CustomTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CustomAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CustomVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.View = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Remove = new System.Windows.Forms.DataGridViewImageColumn();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFolders)).BeginInit();
@@ -145,10 +147,12 @@
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showIconsForInstalledGamesOnlyToolStripMenuItem,
-            this.viewInstalledGamesListToolStripMenuItem});
+            this.viewInstalledGamesListToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.installNXTitlesListDumperNROToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.viewToolStripMenuItem.Text = "View";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.viewToolStripMenuItem.Text = "Title ID";
             // 
             // showIconsForInstalledGamesOnlyToolStripMenuItem
             // 
@@ -161,9 +165,20 @@
             // 
             this.viewInstalledGamesListToolStripMenuItem.Name = "viewInstalledGamesListToolStripMenuItem";
             this.viewInstalledGamesListToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
-            this.viewInstalledGamesListToolStripMenuItem.Text = "Show Installed Games List";
-            this.viewInstalledGamesListToolStripMenuItem.Visible = false;
+            this.viewInstalledGamesListToolStripMenuItem.Text = "Show List of Installed Games (CSV)";
             this.viewInstalledGamesListToolStripMenuItem.Click += new System.EventHandler(this.viewInstalledGamesListToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(261, 6);
+            // 
+            // installNXTitlesListDumperNROToolStripMenuItem
+            // 
+            this.installNXTitlesListDumperNROToolStripMenuItem.Name = "installNXTitlesListDumperNROToolStripMenuItem";
+            this.installNXTitlesListDumperNROToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
+            this.installNXTitlesListDumperNROToolStripMenuItem.Text = "Install NX Titles List Dumper (NRO)";
+            this.installNXTitlesListDumperNROToolStripMenuItem.Click += new System.EventHandler(this.installNXTitlesListDumperNROToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -271,7 +286,6 @@
             this.dgvQueue.AllowUserToResizeRows = false;
             this.dgvQueue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvQueue.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvQueue.BackgroundColor = System.Drawing.Color.White;
             this.dgvQueue.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvQueue.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -299,68 +313,6 @@
             this.dgvQueue.TabIndex = 13;
             this.dgvQueue.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvQueue_CellContentClick);
             this.dgvQueue.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvQueue_CellEndEdit);
-            // 
-            // Output
-            // 
-            this.Output.HeaderText = "Icon Name";
-            this.Output.MinimumWidth = 150;
-            this.Output.Name = "Output";
-            this.Output.ReadOnly = true;
-            this.Output.Width = 150;
-            // 
-            // Title_ID
-            // 
-            this.Title_ID.HeaderText = "Title ID";
-            this.Title_ID.MinimumWidth = 100;
-            this.Title_ID.Name = "Title_ID";
-            // 
-            // CustomTitle
-            // 
-            this.CustomTitle.HeaderText = "Custom Title";
-            this.CustomTitle.MinimumWidth = 150;
-            this.CustomTitle.Name = "CustomTitle";
-            this.CustomTitle.Width = 150;
-            // 
-            // CustomAuthor
-            // 
-            this.CustomAuthor.HeaderText = "Custom Author";
-            this.CustomAuthor.MinimumWidth = 100;
-            this.CustomAuthor.Name = "CustomAuthor";
-            // 
-            // CustomVersion
-            // 
-            this.CustomVersion.HeaderText = "Custom Version";
-            this.CustomVersion.MinimumWidth = 150;
-            this.CustomVersion.Name = "CustomVersion";
-            this.CustomVersion.Width = 150;
-            // 
-            // View
-            // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(185)))), ((int)(((byte)(230)))));
-            this.View.DefaultCellStyle = dataGridViewCellStyle3;
-            this.View.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.View.HeaderText = "View";
-            this.View.MinimumWidth = 50;
-            this.View.Name = "View";
-            this.View.Text = "View";
-            this.View.Width = 50;
-            // 
-            // Remove
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Red;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
-            this.Remove.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Remove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Remove.HeaderText = "Delete";
-            this.Remove.MinimumWidth = 50;
-            this.Remove.Name = "Remove";
-            this.Remove.ReadOnly = true;
-            this.Remove.Text = "X";
-            this.Remove.ToolTipText = "Remove icon from Queue";
-            this.Remove.Width = 50;
             // 
             // btnConnect
             // 
@@ -518,7 +470,6 @@
             // 
             this.dgvInstalled.AllowUserToAddRows = false;
             this.dgvInstalled.AllowUserToDeleteRows = false;
-            this.dgvInstalled.AllowUserToResizeColumns = false;
             this.dgvInstalled.AllowUserToResizeRows = false;
             this.dgvInstalled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -579,6 +530,74 @@
             this.cmbAutoStyle.Text = "<Select Icon Style>";
             this.cmbAutoStyle.Visible = false;
             this.cmbAutoStyle.SelectedIndexChanged += new System.EventHandler(this.cmbAutoStyle_SelectedIndexChanged);
+            // 
+            // Output
+            // 
+            this.Output.HeaderText = "Icon Name";
+            this.Output.MinimumWidth = 200;
+            this.Output.Name = "Output";
+            this.Output.ReadOnly = true;
+            this.Output.Width = 200;
+            // 
+            // Title_ID
+            // 
+            this.Title_ID.HeaderText = "Title ID";
+            this.Title_ID.MinimumWidth = 120;
+            this.Title_ID.Name = "Title_ID";
+            this.Title_ID.Width = 120;
+            // 
+            // CustomTitle
+            // 
+            this.CustomTitle.HeaderText = "Custom Title";
+            this.CustomTitle.MinimumWidth = 150;
+            this.CustomTitle.Name = "CustomTitle";
+            this.CustomTitle.Width = 150;
+            // 
+            // CustomAuthor
+            // 
+            this.CustomAuthor.HeaderText = "Custom Author";
+            this.CustomAuthor.MinimumWidth = 100;
+            this.CustomAuthor.Name = "CustomAuthor";
+            // 
+            // CustomVersion
+            // 
+            this.CustomVersion.HeaderText = "Custom Version";
+            this.CustomVersion.MinimumWidth = 120;
+            this.CustomVersion.Name = "CustomVersion";
+            this.CustomVersion.Width = 120;
+            // 
+            // View
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle3.NullValue")));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
+            this.View.DefaultCellStyle = dataGridViewCellStyle3;
+            this.View.HeaderText = "View";
+            this.View.Image = global::NX_GIC.Properties.Resources.image_file;
+            this.View.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.View.MinimumWidth = 40;
+            this.View.Name = "View";
+            this.View.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.View.Width = 40;
+            // 
+            // Remove
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle4.NullValue")));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.White;
+            this.Remove.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Remove.HeaderText = "Delete";
+            this.Remove.Image = global::NX_GIC.Properties.Resources.remove;
+            this.Remove.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.Remove.MinimumWidth = 40;
+            this.Remove.Name = "Remove";
+            this.Remove.ReadOnly = true;
+            this.Remove.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Remove.ToolTipText = "Remove icon from Queue";
+            this.Remove.Width = 40;
             // 
             // Main
             // 
@@ -654,13 +673,6 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showIconsForInstalledGamesOnlyToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog ofdCsv;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Output;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Title_ID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CustomTitle;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CustomAuthor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CustomVersion;
-        private System.Windows.Forms.DataGridViewButtonColumn View;
-        private System.Windows.Forms.DataGridViewButtonColumn Remove;
         private System.Windows.Forms.DataGridViewTextBoxColumn Folder;
         private System.Windows.Forms.ToolStripMenuItem tutorialToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -670,6 +682,15 @@
         private System.Windows.Forms.ToolStripMenuItem viewInstalledGamesListToolStripMenuItem;
         private System.Windows.Forms.Button btnReloadCSV;
         private System.Windows.Forms.ComboBox cmbAutoStyle;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem installNXTitlesListDumperNROToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Output;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Title_ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CustomTitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CustomAuthor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CustomVersion;
+        private System.Windows.Forms.DataGridViewImageColumn View;
+        private System.Windows.Forms.DataGridViewImageColumn Remove;
     }
 }
 

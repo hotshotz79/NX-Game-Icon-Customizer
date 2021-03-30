@@ -10,6 +10,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Text.RegularExpressions;
+using WinSCP;
 
 namespace NX_GIC
 {
@@ -25,6 +26,7 @@ namespace NX_GIC
         bool offlineMode = Properties.Settings.Default.OfflineStatus;
         bool moveFiles = false;
         bool gicMode = false;
+        bool matchingDone = false;
         decimal zoomLvl = Properties.Settings.Default.ZoomLevel;
         string csvPath = Properties.Settings.Default.csvInstalled;
         DataTable dtCSV = new DataTable();
@@ -546,8 +548,9 @@ namespace NX_GIC
         {
             if (!showIconsForInstalledGamesOnlyToolStripMenuItem.Checked)
             {
-                if (csvPath == "")
-                    csvCheck();
+                if (Properties.Settings.Default.csvInstalled == "")
+                    if (!csvCheck())
+                        return;
                 csvLoad();
                 showIconsForInstalledGamesOnlyToolStripMenuItem.Checked = true;
             }
@@ -563,10 +566,10 @@ namespace NX_GIC
             System.Diagnostics.Process.Start("https://github.com/sodasoba1/NSW-Custom-Game-Icons/blob/main/README.md");
         }
 
-        public void csvCheck()
+        public bool csvCheck()
         {
-            DialogResult csvDialog = MessageBox.Show("Installed Games list (.csv) not found, do you want to browse?",
-                    "CSV Not Found",
+            DialogResult csvDialog = MessageBox.Show("Installed Games list (.csv) not set or found, do you want to browse?",
+                    "Set CSV Path",
                 MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
             if (csvDialog == DialogResult.OK)
             {
@@ -578,18 +581,29 @@ namespace NX_GIC
 
                 if (ofdCsv.ShowDialog() == DialogResult.OK)
                 {
-                    //Delete existing (outdated) titles file
-                    if (File.Exists(path + @"\titles.csv"))
-                        File.Delete(path + @"\titles.csv");
-                    //Copy where ever the file was found and save under nxGIC directory
-                    File.Copy(ofdCsv.FileName, path + @"\titles.csv");
+                    //If selected csv was in the previous saved path, do nothing
+                    if (ofdCsv.FileName != csvPath)
+                    {
+                        //Delete existing (outdated) titles file
+                        if (File.Exists(path + @"\titles.csv"))
+                            File.Delete(path + @"\titles.csv");
+                        //Copy where ever the file was found and save under nxGIC directory
+                        File.Copy(ofdCsv.FileName, path + @"\titles.csv");
+                    }
                     Properties.Settings.Default.csvInstalled = path + @"\" + ofdCsv.SafeFileName;
-                    csvPath = ofdCsv.FileName;
+                    csvPath = path + @"\" + ofdCsv.SafeFileName;
                     Properties.Settings.Default.Save();
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
             else
-                return;
+            {
+                return false;
+            }
         }
         public void csvLoad()
         {
@@ -625,34 +639,43 @@ namespace NX_GIC
             dgvInstalled.Columns["Match"].Width = 50;
 
 
-            DataGridViewButtonColumn btnAdd = new DataGridViewButtonColumn();
+            //DataGridViewButtonColumn btnAdd = new DataGridViewButtonColumn();
+            DataGridViewImageColumn btnAdd = new DataGridViewImageColumn();
             dgvInstalled.Columns.Add(btnAdd);
             btnAdd.HeaderText = "Add";
-            btnAdd.Text = "+";
+            //btnAdd.Text = "+";
+            btnAdd.Image = Properties.Resources.plus;
+            btnAdd.ImageLayout = DataGridViewImageCellLayout.Zoom;
             btnAdd.Name = "btnAdd";
-            btnAdd.UseColumnTextForButtonValue = true;
-            //pbIcon.DoubleClick += new EventHandler(this.iconClicked);
-            dgvInstalled.Columns["btnAdd"].Width = 40;
+            btnAdd.DefaultCellStyle.SelectionBackColor = Color.White;
+            //btnAdd.UseColumnTextForButtonValue = true;
+            dgvInstalled.Columns["btnAdd"].Width = 35;
 
-            DataGridViewButtonColumn btnRem = new DataGridViewButtonColumn();
+            //DataGridViewButtonColumn btnRem = new DataGridViewButtonColumn();
+            DataGridViewImageColumn btnRem = new DataGridViewImageColumn();
             dgvInstalled.Columns.Add(btnRem);
             btnRem.HeaderText = "Skip";
-            btnRem.Text = "X";
+            btnRem.Image = Properties.Resources.remove;
+            btnRem.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            //btnRem.Text = "X";
             btnRem.Name = "btnRem";
-            btnRem.UseColumnTextForButtonValue = true;
-            dgvInstalled.Columns["btnRem"].Width = 40;
-
+            btnRem.DefaultCellStyle.SelectionBackColor = Color.White;
+            //btnRem.UseColumnTextForButtonValue = true;
+            dgvInstalled.Columns["btnRem"].Width = 35;
 
             dgvInstalled.Sort(dgvInstalled.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
         }
 
+        //Button: Auto GIC
         private void btnAutoGic_Click(object sender, EventArgs e)
         {
+            //Auto GIC mode enabled
             if (!gicMode)
             {
                 if (Properties.Settings.Default.csvInstalled == "")
                 {
-                    csvCheck();
+                    if (!csvCheck())
+                        return;
                 }
                 csvLoad();
                 dgvInstalled.Visible = true;
@@ -667,6 +690,7 @@ namespace NX_GIC
                 btnReloadCSV.Visible = true;
                 cmbAutoStyle.Visible = true;
             }
+            //Unclick Auto-GIC button
             else
             {
                 dgvInstalled.Visible = false;
@@ -680,8 +704,10 @@ namespace NX_GIC
                 cmbAutoStyle.Visible = false;
             }
 
+            //Read all folders in Main directory
             string[] subdirectoryEntries = Directory.GetDirectories(path + @"\Main");
 
+            //Populate Drop Down box for icon style
             if (subdirectoryEntries.Length > 0)
             {
                 cmbAutoStyle.Items.Clear();
@@ -702,6 +728,7 @@ namespace NX_GIC
             }
         }
 
+        //Find icons matching with titles.csv
         private void AutoGIC(string iconStyle)
         {
 
@@ -725,44 +752,61 @@ namespace NX_GIC
                     row.Cells["Path"].Value = iconArr[randId].ToString();
                 }
             }
+
+            matchingDone = true;
         }
 
         //Auto GIC - 1 Click to Add all Matched icons to Queue
         private void btnAddtoOut_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dgvInstalled.Rows)
+            if (matchingDone)
             {
-                if (row.Cells["Match"].Value.ToString() == "Found")
+                foreach (DataGridViewRow row in dgvInstalled.Rows)
                 {
-                    //Send to Queue
-                    string copyPath = row.Cells["Path"].Value.ToString();
-                    string PastePath = path + "\\Output\\" + row.Cells["Title ID"].Value.ToString();
-                    Directory.CreateDirectory(PastePath);
-                    //Paste & Rename @ ..\Output\{Title ID}\icon.jpg
-                    File.Copy(copyPath, PastePath + "\\icon.jpg", true);
-                    //Add Name to dgvQueue
-                    dgvQueue.Rows.Add(row.Cells["Title Name"].Value.ToString(),
-                        row.Cells["Title ID"].Value.ToString());
-                }   
+                    if (row.Cells["Match"].Value.ToString() == "Found")
+                    {
+                        //Send to Queue
+                        string copyPath = row.Cells["Path"].Value.ToString();
+                        string PastePath = path + "\\Output\\" + row.Cells["Title ID"].Value.ToString();
+                        Directory.CreateDirectory(PastePath);
+                        //Paste & Rename @ ..\Output\{Title ID}\icon.jpg
+                        File.Copy(copyPath, PastePath + "\\icon.jpg", true);
+                        //Add Name to dgvQueue
+                        dgvQueue.Rows.Add(row.Cells["Title Name"].Value.ToString(),
+                            row.Cells["Title ID"].Value.ToString());
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No matching was done, select an Icon Style from the drop down selection", "No Matches", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 
+        //Pop up a form to display List of Title IDs and Name for reference only
         private void viewInstalledGamesListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //New form, display Title ID List
-            //use .Show (not .ShowDialog)
-            //use taskbar icon from HamletDuFromage Title Dumper
+            if (Properties.Settings.Default.csvInstalled == "")
+            {
+                if (!csvCheck())
+                    return;
+            }
+            csvLoad();
+            CSVList csvForm = new CSVList(dtCSV);
+            csvForm.Show();
         }
 
+        //Auto GIC - drop current titles.csv and import new one
         private void btnReloadCSV_Click(object sender, EventArgs e)
         {
-            csvPath = "";
             Properties.Settings.Default.csvInstalled = "";
             Properties.Settings.Default.Save();
-            csvCheck();
+            if (!csvCheck())
+                return;
             csvLoad();
         }
 
+        //Auto GIC - icon style changed
         private void cmbAutoStyle_SelectedIndexChanged(object sender, EventArgs e)
         {
             AutoGIC(cmbAutoStyle.SelectedItem.ToString());
@@ -776,24 +820,153 @@ namespace NX_GIC
             //Single add icon to Transfer Queue
             if (e.ColumnIndex == indexAdd && e.RowIndex >= 0)
             {
-                if (dgvInstalled.Rows[e.RowIndex].Cells["Match"].Value.ToString() == "Found")
+                if (!matchingDone)
+                    MessageBox.Show("No matching was done, select an Icon Style from the drop down selection", "No Matches", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                else
                 {
-                    //Send to Queue
-                    string copyPath = dgvInstalled.Rows[e.RowIndex].Cells["Path"].Value.ToString();
-                    string PastePath = path + "\\Output\\" + dgvInstalled.Rows[e.RowIndex].Cells["Title ID"].Value.ToString();
-                    Directory.CreateDirectory(PastePath);
-                    //Paste & Rename @ ..\Output\{Title ID}\icon.jpg
-                    File.Copy(copyPath, PastePath + "\\icon.jpg", true);
-                    //Add Name to dgvQueue
-                    dgvQueue.Rows.Add(dgvInstalled.Rows[e.RowIndex].Cells["Title Name"].Value.ToString(),
-                        dgvInstalled.Rows[e.RowIndex].Cells["Title ID"].Value.ToString());
+                    //If there is no match found and Add (+) button is clicked
+                    if (dgvInstalled.Rows[e.RowIndex].Cells["Match"].Value == null ||
+                        dgvInstalled.Rows[e.RowIndex].Cells["Match"].Value == DBNull.Value || 
+                        String.IsNullOrWhiteSpace(dgvInstalled.Rows[e.RowIndex].Cells["Match"].Value.ToString()))
+                    {
+                        Console.WriteLine("Match column value is NULL");
+                        return;
+                    }
+
+                    //If match result is 'Found'
+                    if (dgvInstalled.Rows[e.RowIndex].Cells["Match"].Value.ToString() == "Found")
+                    {
+                        //Send to Queue
+                        string copyPath = dgvInstalled.Rows[e.RowIndex].Cells["Path"].Value.ToString();
+                        string PastePath = path + "\\Output\\" + dgvInstalled.Rows[e.RowIndex].Cells["Title ID"].Value.ToString();
+                        Directory.CreateDirectory(PastePath);
+                        //Paste & Rename @ ..\Output\{Title ID}\icon.jpg
+                        File.Copy(copyPath, PastePath + "\\icon.jpg", true);
+                        //Add Name to dgvQueue
+                        dgvQueue.Rows.Add(dgvInstalled.Rows[e.RowIndex].Cells["Title Name"].Value.ToString(),
+                            dgvInstalled.Rows[e.RowIndex].Cells["Title ID"].Value.ToString());
+                    }
                 }
             }
-            //Remove record is X is clicked
+            //Remove record if X is clicked
             if (e.ColumnIndex == indexRem && e.RowIndex >= 0)
             {
                 dgvInstalled.Rows.RemoveAt(e.RowIndex);
             }
         }
+
+        //Install NX Titles List Dumper NRO
+        private void installNXTitlesListDumperNROToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NROInstall();
+        }
+
+        public void NROInstall()
+        {
+            DialogResult nroResult = MessageBox.Show("This function will automatically download & transfer NX Titles List Dumper (.nro) to your switch via FTP" +
+            "\n\nPlease perform the following steps:" +
+            "\n1. On your Switch, run FTP client" +
+            "\n2. Confirm IP saved in NX GIC matches Switch's IP: " + Properties.Settings.Default.IPAddress +
+            "\n3. If the IP Addresses do not match, click [Cancel] and update it under NX GIC > File > Settings" +
+            "\n4. Click [Yes]" +
+            "\n\nIf you like to do these steps manually, click [No] to navigate to NX TLD GitHub page",
+            "Download & Install NX TLD", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
+
+            if (nroResult == DialogResult.Yes)
+            {
+                bool statusSuccess = false;
+                
+                using (var clientWeb = new WebClient())
+                {
+                    clientWeb.Headers.Add("User-Agent: Other");
+                    clientWeb.DownloadFile("https://github.com/HamletDuFromage/nx-titles-list-dumper/releases/download/1.0.1/nx-titles-list-dumper.nro", 
+                        "nx-titles-list-dumper.nro");
+                }
+
+                //FTP path + nro to IPAddress/switch/
+                using (Session session = new Session())
+                {
+                    try
+                    {
+                        sessionOptions.HostName = Properties.Settings.Default.IPAddress;
+                        // Connect
+                        session.Open(sessionOptions);
+                        // Upload
+                        session.PutFilesToDirectory(path + "nx-titles-list-dumper.nro", "/switch").Check();
+                        statusSuccess = true;
+                    }
+                    catch (Exception err)
+                    {
+                        statusSuccess = false;
+                        MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+
+                //Ask user if they wish to load the CSV
+                if (statusSuccess)
+                {
+                    DialogResult dlResult = MessageBox.Show("NRO successfully transfered, would you like to load Title IDs into NX GIC via FTP?", "Title", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (dlResult == DialogResult.Yes)
+                    {
+                        nroResult = MessageBox.Show("This function will automatically download the dumped titles.csv from your Switch via FTP" +
+                           "\n\nPlease perform the following steps:" +
+                           "\n1. On your Switch, run NX Titles List Dumper (NRO)" +
+                           "\n2. Press (A) button to generate the csv" +
+                           "\n3. Close NRO and run FTP Client on your Switch" +
+                           "\n4. Click [OK]",
+                           "Download & Retrieve CSV", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+                        if (nroResult == DialogResult.OK)
+                        {
+                            Cursor.Current = Cursors.WaitCursor;
+                            using (Session session = new Session())
+                            {
+                                try
+                                {
+                                    sessionOptions.HostName = Properties.Settings.Default.IPAddress;
+                                    // Connect
+                                    session.Open(sessionOptions);
+                                    // Upload
+                                    session.GetFiles("/titles.csv", path, false);
+                                    statusSuccess = true;
+                                }
+                                catch (Exception err)
+                                {
+                                    statusSuccess = false;
+                                    Cursor.Current = Cursors.Default;
+                                    MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                            }
+
+                            if (statusSuccess)
+                            {
+                                Properties.Settings.Default.csvInstalled = path + @"\titles.csv";
+                                csvPath = path + @"\titles.csv";
+                                Properties.Settings.Default.Save();
+
+                                csvLoad();
+                            }
+                            Cursor.Current = Cursors.Default;
+                            MessageBox.Show("CSV Locked and Loaded", "Completed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+            }
+            else if (nroResult == DialogResult.No)
+            {
+                System.Diagnostics.Process.Start("https://github.com/HamletDuFromage/nx-titles-list-dumper/releases");
+            }
+        }
+
+        // Setup FTP session options
+        SessionOptions sessionOptions = new SessionOptions
+        {
+            Protocol = Protocol.Ftp,
+            HostName = Properties.Settings.Default.IPAddress,
+            PortNumber = 5000,
+            UserName = " ",
+            Password = "",
+        };
     }
 }

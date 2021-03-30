@@ -29,8 +29,6 @@ namespace NX_GIC
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -51,12 +49,12 @@ namespace NX_GIC
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.Control;
-            this.label1.Location = new System.Drawing.Point(181, 357);
+            this.label1.Location = new System.Drawing.Point(267, 356);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(443, 68);
+            this.label1.Size = new System.Drawing.Size(277, 68);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Nintendo Switch - Game Icon Customizer\r\nCreated by Hotshotz79\r\n\r\nThanks to GBATem" +
-    "p user; SodaSoba for testing and Icon Repository";
+            this.label1.Text = "Nintendo Switch - Game Icon Customizer\r\n\r\nHotshotz79 - Programmer\r\nSodaSoba - Qua" +
+    "lity Assurance | Icon Repo";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.label1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.label1_MouseClick);
             // 

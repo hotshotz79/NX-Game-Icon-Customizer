@@ -79,6 +79,12 @@
     <Compile Include="AddResize.Designer.cs">
       <DependentUpon>AddResize.cs</DependentUpon>
     </Compile>
+    <Compile Include="CSVList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CSVList.Designer.cs">
+      <DependentUpon>CSVList.cs</DependentUpon>
+    </Compile>
     <Compile Include="GetURL.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddResize.resx">
       <DependentUpon>AddResize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CSVList.resx">
+      <DependentUpon>CSVList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GetURL.resx">
       <DependentUpon>GetURL.cs</DependentUpon>
@@ -165,6 +174,10 @@
     <None Include="Resources\About.png" />
     <None Include="Resources\ZoomOut.png" />
     <None Include="Resources\ZoomIn.png" />
+    <None Include="Resources\nxtld-icon.jpg" />
+    <None Include="Resources\plus.png" />
+    <None Include="Resources\remove.png" />
+    <None Include="Resources\image-file.png" />
     <Content Include="switch-cartridge-1698286-1456469.ico" />
     <None Include="Images\Vertical.jpg" />
     <None Include="Images\Default.jpg" />

@@ -102,8 +102,7 @@ namespace NX_GIC
                 }
             }
 
-            //Transfer via IP
-            // root path must exist
+            //Non-SCP FTP method
             //string url = @"ftp://" + txtIP.Text + @":5000/atmosphere/contents/";
             //NetworkCredential credentials = new NetworkCredential("", "");
 
@@ -121,6 +120,7 @@ namespace NX_GIC
             Password = "",
         };
 
+        //Recursive method FTP
         void UploadFtpDirectory(string sourcePath, string url, NetworkCredential credentials)
         {
             IEnumerable<string> files = Directory.EnumerateFiles(sourcePath);
