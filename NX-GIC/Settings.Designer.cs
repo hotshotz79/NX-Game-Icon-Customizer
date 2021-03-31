@@ -152,9 +152,9 @@ namespace NX_GIC
             this.label5.Location = new System.Drawing.Point(16, 217);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(126, 13);
+            this.label5.Size = new System.Drawing.Size(123, 13);
             this.label5.TabIndex = 13;
-            this.label5.Text = "Installed Game List (CSV)";
+            this.label5.Text = "Installed Titles List (CSV)";
             // 
             // btnDelCsvPath
             // 

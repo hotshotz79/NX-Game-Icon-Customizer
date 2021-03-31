@@ -24,12 +24,13 @@ namespace NX_GIC
             txtIP.Text = Properties.Settings.Default.IPAddress;
 
             //Populate Drop Down List with Drives
+            /*
             foreach (var drive in DriveInfo.GetDrives())
             {
                 if (drive.Name != "C:\\")
                     cmbDrives.Items.Add(drive.Name + " - (" + drive.VolumeLabel + ")");
             }
-
+            */
             foreach (var devices in MediaDevice.GetDevices())
             {
                 cmbDevice.Items.Add(devices.Description);

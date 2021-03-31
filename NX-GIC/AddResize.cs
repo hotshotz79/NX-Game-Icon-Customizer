@@ -45,6 +45,10 @@ namespace NX_GIC
             GetURL frmUrl = new GetURL();
             if (frmUrl.ShowDialog(this) == DialogResult.OK)
             {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                | SecurityProtocolType.Tls11
+                | SecurityProtocolType.Tls12
+                | SecurityProtocolType.Ssl3;
                 Uri uri = new Uri(frmUrl.urlEntered); 
                 txtName.Text = Path.GetFileName(uri.LocalPath).Replace(".jpg","").Replace("-", " ");
                 var request = WebRequest.Create(uri);

@@ -339,7 +339,7 @@ namespace NX_GIC
                 string directory = dir_info.Name;
                 //Ignore folders starting with . (i.e. .git) and exclude Themes folder
                 if (directory.Substring(0, 1) != "." &&
-                    !directory.Contains("Themes"))
+                    !directory.ToUpper().Contains("THEME"))
                     cmbSubfolders.Items.Add(directory);
             }
 
@@ -477,20 +477,24 @@ namespace NX_GIC
         //Queue | Output - Buttons
         private void dgvQueue_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            //Delete
-            origTitleID = dgvQueue.Rows[e.RowIndex].Cells[1].Value.ToString();
             int indexView = dgvQueue.Columns[5].Index;
             int indexDel = dgvQueue.Columns[6].Index;
-            string titleID = dgvQueue.Rows[e.RowIndex].Cells[1].Value.ToString();
+            string titleID = "";
 
-            if (e.ColumnIndex == indexView && e.RowIndex >= 0)
+            //Seperate the Title IDs (Original and Modified)
+            if (e.RowIndex >= 0)
             {
-                System.Diagnostics.Process.Start(path + @"\Output\" + titleID + @"\icon.jpg");
+                origTitleID = dgvQueue.Rows[e.RowIndex].Cells[1].Value.ToString();
+                titleID = dgvQueue.Rows[e.RowIndex].Cells[1].Value.ToString();
             }
 
+            //View Button - Open icon in default picture viewer
+            if (e.ColumnIndex == indexView && e.RowIndex >= 0)
+                System.Diagnostics.Process.Start(path + @"\Output\" + titleID + @"\icon.jpg");
+
+            //Delete Button - Remove the selected icon
             if (e.ColumnIndex == indexDel && e.RowIndex >= 0)
             {
-                
                 Directory.Delete(path + @"\Output\" + titleID, true);
                 dgvQueue.Rows.RemoveAt(e.RowIndex);
             }
@@ -521,27 +525,81 @@ namespace NX_GIC
                         Directory.Move(path + @"\Output\" + origTitleID, path + @"\Output\" + titleID);
                 }
             }
+            
+            //CONFIG.INI SETUP
+            string configFile = path + @"\Output\" + dgvQueue.Rows[e.RowIndex].Cells[1].Value.ToString() + @"\config.ini";
+            string configFileTemp = path + @"\Output\" + dgvQueue.Rows[e.RowIndex].Cells[1].Value.ToString() + @"\config.txt";
+            string customTitle = "";
+            string customAuthor = "";
+            string customVersion = "";
+            if (dgvQueue.Rows[e.RowIndex].Cells[2].Value != null)
+                customTitle = dgvQueue.Rows[e.RowIndex].Cells[2].Value.ToString();
+            if (dgvQueue.Rows[e.RowIndex].Cells[3].Value != null)
+                customAuthor = dgvQueue.Rows[e.RowIndex].Cells[3].Value.ToString();
+            if (dgvQueue.Rows[e.RowIndex].Cells[4].Value != null)
+                customVersion = dgvQueue.Rows[e.RowIndex].Cells[4].Value.ToString();
+
+            //Create the ini
+            if (!File.Exists(configFile))
+            {
+                using (StreamWriter sw = File.CreateText(configFile))
+                {
+                    sw.WriteLine("[override_nacp]");
+                }
+            }
+
             if (e.ColumnIndex == indexTname && e.RowIndex >= 0)
             {
-                //If config.ini exists
-                //else create
-
-                //Add/Update Title Name
+                ConfigINI(configFile, configFileTemp, "name", customTitle);
             }
             if (e.ColumnIndex == indexAuthor && e.RowIndex >= 0)
             {
-                //If config.ini exists
-                //else create
-
-                //Add/Update Title Name
+                ConfigINI(configFile, configFileTemp, "author", customAuthor);
             }
             if (e.ColumnIndex == indexVer && e.RowIndex >= 0)
             {
-                //If config.ini exists
-                //else create
-
-                //Add/Update Title Name
+                if (customVersion.Length == 5 || customVersion.Length == 0)
+                {
+                    ConfigINI(configFile, configFileTemp, "display_version", customVersion);
+                }
+                else
+                {
+                    MessageBox.Show("Custom Version format needs to be #.#.#\n\nExample: 1.0.0", "Version Invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgvQueue.Rows[e.RowIndex].Cells[4].Value = "";
+                    return;
+                }
             }
+
+            //If all 3 Custom fields are empty; Delete config.ini
+            if (e.RowIndex >= 0) 
+                if (customTitle == "" && customAuthor == "" && customVersion == "")
+                    File.Delete(configFile);
+        }
+
+        //Generates the CONFIG.ini file for a title
+        public void ConfigINI(string iniPath, string txtPath, string field, string value)
+        {
+            string line = null;
+            string line_to_delete = field + "=";
+
+            using (StreamReader reader = new StreamReader(iniPath))
+            {
+                //Write to new .txt file
+                using (StreamWriter writer = new StreamWriter(txtPath))
+                {
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        //Copy from ini to txt if field doesn't exist
+                        //if (String.Compare(line, line_to_delete) == -1)
+                        if (!line.Contains(line_to_delete))
+                            writer.WriteLine(line);
+                    }
+                    if (value != "")
+                        writer.WriteLine(field + "=" + value);
+                }
+            }
+            File.Delete(iniPath); //Delete .ini
+            File.Move(txtPath, iniPath);  //Replace modifed .txt to .ini
         }
 
         private void showIconsForInstalledGamesOnlyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -568,7 +626,7 @@ namespace NX_GIC
 
         public bool csvCheck()
         {
-            DialogResult csvDialog = MessageBox.Show("Installed Games list (.csv) not set or found, do you want to browse?",
+            DialogResult csvDialog = MessageBox.Show("Import Titles list (.csv)?",
                     "Set CSV Path",
                 MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
             if (csvDialog == DialogResult.OK)

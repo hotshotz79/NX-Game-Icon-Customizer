@@ -41,7 +41,7 @@ namespace NX_GIC
         private void btnDelCsvPath_Click(object sender, EventArgs e)
         {
             DialogResult diaglogDel = MessageBox.Show("This will delete the current titles.csv saved under NX-GIC folder.\n\n" +
-                "\nTo add a new .csv, Click the [Installed IDs] button from main screen", "Delete CSV",
+                "\nTo add a new .csv, Click the [Reload CSV] button when Auto GIC mode is enabled", "Delete CSV",
                 MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (diaglogDel == DialogResult.OK)
             {
