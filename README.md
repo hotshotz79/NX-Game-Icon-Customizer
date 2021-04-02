@@ -10,6 +10,7 @@
 
 <p align="center">
   <a href="https://github.com/hotshotz79/NX-Game-Icon-Customizer/releases">Download</a> | 
+  <a href="https://github.com/sodasoba1/NSW-Custom-Game-Icons/blob/main/README.md">Tutorial</a> | 
   <a href="https://github.com/hotshotz79/NX-Game-Icon-Customizer/wiki">Wiki</a> | 
   <a href="https://github.com/hotshotz79/NX-Game-Icon-Customizer/wiki/FAQ-Troubleshoot">FAQ</a> 
 </p>
