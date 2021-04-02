@@ -41,6 +41,8 @@ namespace NX_GIC
 
             this.Text += " - v" + localVer;
 
+            if (Directory.Exists(path + "\\Output"))
+                Directory.Delete(path + "\\Output", true);
         }
 
         private async void VerCheck()
@@ -194,10 +196,8 @@ namespace NX_GIC
         private async void btnConnect_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            //Clear previous Queue/Output and Create new
-            if (Directory.Exists(path + "\\Output")) Directory.Delete(path + "\\Output", true);
-            Directory.CreateDirectory(path + "\\Output");
-            //Create Main folder if it doesn't exist
+            //Create Main & Output folder if it doesn't exist
+            if (Directory.Exists(path + "\\Output")) Directory.CreateDirectory(path + "\\Output");
             if (!Directory.Exists(path + "\\Main")) Directory.CreateDirectory(path + "\\Main");
 
             //Check updates and download icons from Github
@@ -222,11 +222,12 @@ namespace NX_GIC
             }
 
             //Select the folder if only 1, otherwise ask 
-            if (cmbRepo.Items.Count == 1)
+            /*if (cmbRepo.Items.Count == 1)
                 cmbRepo.SelectedIndex = 0;
             else
-                cmbRepo.Text = "<Select a folder>";
+                cmbRepo.Text = "<Select a folder>";*/
 
+            cmbRepo.SelectedItem = "Main";
             Cursor.Current = Cursors.Default;
         }
 
@@ -311,12 +312,27 @@ namespace NX_GIC
             PictureBox pb = (PictureBox)sender;
 
             string copyPath = pb.ImageLocation.ToString();
-            string PastePath = path + "\\Output\\" + pb.Tag.ToString();
-            Directory.CreateDirectory(PastePath);
+            string pastePath = path + "\\Output\\" + pb.Tag.ToString();
+            Directory.CreateDirectory(pastePath);
             //Paste & Rename @ ..\Output\{Title ID}\icon.jpg
-            File.Copy(copyPath, PastePath + "\\icon.jpg", true);
+            File.Copy(copyPath, pastePath + "\\icon.jpg", true);
+
+            AddtoQueue(pb.Name, pb.Tag.ToString());
+        }
+
+        public void AddtoQueue (string iconName, string titleID)
+        {
+            //Check if same another icon exist for same title id
+            for (int x = 0; x < dgvQueue.Rows.Count; x++)
+            {
+                if (dgvQueue.Rows[x].Cells[1].Value.ToString() == titleID.ToString())
+                {
+                    dgvQueue.Rows.RemoveAt(x);
+                }
+            }
+
             //Add Name to dgvQueue
-            dgvQueue.Rows.Add(pb.Name, pb.Tag);
+            dgvQueue.Rows.Add(iconName, titleID);
         }
 
         private void cmbRepo_SelectedIndexChanged(object sender, EventArgs e)
@@ -406,7 +422,8 @@ namespace NX_GIC
             AddResize frmAdd = new AddResize();
             if (frmAdd.ShowDialog(this) == DialogResult.OK)
             {
-                dgvQueue.Rows.Add(frmAdd.iconText, frmAdd.iconID);
+                //dgvQueue.Rows.Add(frmAdd.iconText, frmAdd.iconID);
+                AddtoQueue(frmAdd.iconText, frmAdd.iconID);
                 if (cmbSubfolders.SelectedIndex != -1)
                     GenerateSubFolders();
             }
@@ -776,7 +793,7 @@ namespace NX_GIC
                     string directory = dir_info.Name;
                     //Ignore folders starting with . (i.e. .git) and exclude Themes folder
                     if (directory.Substring(0, 1) != "." &&
-                        !directory.Contains("Themes"))
+                        !directory.ToUpper().Contains("THEME"))
                         cmbAutoStyle.Items.Add(directory);
                 }
             }
@@ -830,7 +847,9 @@ namespace NX_GIC
                         //Paste & Rename @ ..\Output\{Title ID}\icon.jpg
                         File.Copy(copyPath, PastePath + "\\icon.jpg", true);
                         //Add Name to dgvQueue
-                        dgvQueue.Rows.Add(row.Cells["Title Name"].Value.ToString(),
+                        //dgvQueue.Rows.Add(row.Cells["Title Name"].Value.ToString(),
+                            //row.Cells["Title ID"].Value.ToString());
+                        AddtoQueue(row.Cells["Title Name"].Value.ToString(),
                             row.Cells["Title ID"].Value.ToString());
                     }
                 }
@@ -867,6 +886,7 @@ namespace NX_GIC
         //Auto GIC - icon style changed
         private void cmbAutoStyle_SelectedIndexChanged(object sender, EventArgs e)
         {
+            btnAddtoOut.Enabled = true;
             AutoGIC(cmbAutoStyle.SelectedItem.ToString());
         }
 
@@ -901,7 +921,9 @@ namespace NX_GIC
                         //Paste & Rename @ ..\Output\{Title ID}\icon.jpg
                         File.Copy(copyPath, PastePath + "\\icon.jpg", true);
                         //Add Name to dgvQueue
-                        dgvQueue.Rows.Add(dgvInstalled.Rows[e.RowIndex].Cells["Title Name"].Value.ToString(),
+                        //dgvQueue.Rows.Add(dgvInstalled.Rows[e.RowIndex].Cells["Title Name"].Value.ToString(),
+                            //dgvInstalled.Rows[e.RowIndex].Cells["Title ID"].Value.ToString());
+                        AddtoQueue(dgvInstalled.Rows[e.RowIndex].Cells["Title Name"].Value.ToString(),
                             dgvInstalled.Rows[e.RowIndex].Cells["Title ID"].Value.ToString());
                     }
                 }

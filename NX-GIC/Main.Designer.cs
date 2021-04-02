@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,6 +57,13 @@
             this.dgvFolders = new System.Windows.Forms.DataGridView();
             this.Folder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvQueue = new System.Windows.Forms.DataGridView();
+            this.Output = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CustomTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CustomAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CustomVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.View = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Remove = new System.Windows.Forms.DataGridViewImageColumn();
             this.btnConnect = new System.Windows.Forms.Button();
             this.cmbRepo = new System.Windows.Forms.ComboBox();
             this.cmbSubfolders = new System.Windows.Forms.ComboBox();
@@ -76,13 +83,6 @@
             this.btnAddtoOut = new System.Windows.Forms.Button();
             this.btnReloadCSV = new System.Windows.Forms.Button();
             this.cmbAutoStyle = new System.Windows.Forms.ComboBox();
-            this.Output = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Title_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CustomTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CustomAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CustomVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.View = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Remove = new System.Windows.Forms.DataGridViewImageColumn();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFolders)).BeginInit();
@@ -251,14 +251,14 @@
             this.dgvFolders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFolders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Folder});
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvFolders.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvFolders.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvFolders.Location = new System.Drawing.Point(14, 107);
             this.dgvFolders.Name = "dgvFolders";
             this.dgvFolders.ReadOnly = true;
@@ -270,8 +270,8 @@
             // 
             // Folder
             // 
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Folder.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Folder.DefaultCellStyle = dataGridViewCellStyle1;
             this.Folder.HeaderText = "";
             this.Folder.MinimumWidth = 50;
             this.Folder.Name = "Folder";
@@ -296,14 +296,14 @@
             this.CustomVersion,
             this.View,
             this.Remove});
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvQueue.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvQueue.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvQueue.Location = new System.Drawing.Point(14, 501);
             this.dgvQueue.MultiSelect = false;
             this.dgvQueue.Name = "dgvQueue";
@@ -313,6 +313,74 @@
             this.dgvQueue.TabIndex = 13;
             this.dgvQueue.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvQueue_CellContentClick);
             this.dgvQueue.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvQueue_CellEndEdit);
+            // 
+            // Output
+            // 
+            this.Output.HeaderText = "Icon Name";
+            this.Output.MinimumWidth = 200;
+            this.Output.Name = "Output";
+            this.Output.ReadOnly = true;
+            this.Output.Width = 200;
+            // 
+            // Title_ID
+            // 
+            this.Title_ID.HeaderText = "Title ID";
+            this.Title_ID.MinimumWidth = 120;
+            this.Title_ID.Name = "Title_ID";
+            this.Title_ID.Width = 120;
+            // 
+            // CustomTitle
+            // 
+            this.CustomTitle.HeaderText = "Custom Title";
+            this.CustomTitle.MinimumWidth = 150;
+            this.CustomTitle.Name = "CustomTitle";
+            this.CustomTitle.Width = 150;
+            // 
+            // CustomAuthor
+            // 
+            this.CustomAuthor.HeaderText = "Custom Author";
+            this.CustomAuthor.MinimumWidth = 100;
+            this.CustomAuthor.Name = "CustomAuthor";
+            // 
+            // CustomVersion
+            // 
+            this.CustomVersion.HeaderText = "Custom Version";
+            this.CustomVersion.MinimumWidth = 120;
+            this.CustomVersion.Name = "CustomVersion";
+            this.CustomVersion.Width = 120;
+            // 
+            // View
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle3.NullValue")));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
+            this.View.DefaultCellStyle = dataGridViewCellStyle3;
+            this.View.HeaderText = "View";
+            this.View.Image = global::NX_GIC.Properties.Resources.image_file;
+            this.View.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.View.MinimumWidth = 40;
+            this.View.Name = "View";
+            this.View.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.View.Width = 40;
+            // 
+            // Remove
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle4.NullValue")));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.White;
+            this.Remove.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Remove.HeaderText = "Delete";
+            this.Remove.Image = global::NX_GIC.Properties.Resources.remove;
+            this.Remove.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.Remove.MinimumWidth = 40;
+            this.Remove.Name = "Remove";
+            this.Remove.ReadOnly = true;
+            this.Remove.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Remove.ToolTipText = "Remove icon from Queue";
+            this.Remove.Width = 40;
             // 
             // btnConnect
             // 
@@ -499,6 +567,7 @@
             // 
             // btnAddtoOut
             // 
+            this.btnAddtoOut.Enabled = false;
             this.btnAddtoOut.Location = new System.Drawing.Point(224, 64);
             this.btnAddtoOut.Name = "btnAddtoOut";
             this.btnAddtoOut.Size = new System.Drawing.Size(103, 25);
@@ -530,74 +599,6 @@
             this.cmbAutoStyle.Text = "<Select Icon Style>";
             this.cmbAutoStyle.Visible = false;
             this.cmbAutoStyle.SelectedIndexChanged += new System.EventHandler(this.cmbAutoStyle_SelectedIndexChanged);
-            // 
-            // Output
-            // 
-            this.Output.HeaderText = "Icon Name";
-            this.Output.MinimumWidth = 200;
-            this.Output.Name = "Output";
-            this.Output.ReadOnly = true;
-            this.Output.Width = 200;
-            // 
-            // Title_ID
-            // 
-            this.Title_ID.HeaderText = "Title ID";
-            this.Title_ID.MinimumWidth = 120;
-            this.Title_ID.Name = "Title_ID";
-            this.Title_ID.Width = 120;
-            // 
-            // CustomTitle
-            // 
-            this.CustomTitle.HeaderText = "Custom Title";
-            this.CustomTitle.MinimumWidth = 150;
-            this.CustomTitle.Name = "CustomTitle";
-            this.CustomTitle.Width = 150;
-            // 
-            // CustomAuthor
-            // 
-            this.CustomAuthor.HeaderText = "Custom Author";
-            this.CustomAuthor.MinimumWidth = 100;
-            this.CustomAuthor.Name = "CustomAuthor";
-            // 
-            // CustomVersion
-            // 
-            this.CustomVersion.HeaderText = "Custom Version";
-            this.CustomVersion.MinimumWidth = 120;
-            this.CustomVersion.Name = "CustomVersion";
-            this.CustomVersion.Width = 120;
-            // 
-            // View
-            // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle8.NullValue")));
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
-            this.View.DefaultCellStyle = dataGridViewCellStyle8;
-            this.View.HeaderText = "View";
-            this.View.Image = global::NX_GIC.Properties.Resources.image_file;
-            this.View.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.View.MinimumWidth = 40;
-            this.View.Name = "View";
-            this.View.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.View.Width = 40;
-            // 
-            // Remove
-            // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle9.NullValue")));
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.White;
-            this.Remove.DefaultCellStyle = dataGridViewCellStyle9;
-            this.Remove.HeaderText = "Delete";
-            this.Remove.Image = global::NX_GIC.Properties.Resources.remove;
-            this.Remove.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.Remove.MinimumWidth = 40;
-            this.Remove.Name = "Remove";
-            this.Remove.ReadOnly = true;
-            this.Remove.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Remove.ToolTipText = "Remove icon from Queue";
-            this.Remove.Width = 40;
             // 
             // Main
             // 
