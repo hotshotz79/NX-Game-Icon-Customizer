@@ -1,3 +1,9 @@
+![Github All Releases](https://img.shields.io/github/downloads/hotshotz79/NX-Game-Icon-Customizer/total)
+![tag](https://img.shields.io/github/v/release/hotshotz79/NX-Game-Icon-Customizer)
+![GitHub Issues](https://img.shields.io/github/issues/hotshotz79/NX-Game-Icon-Customizer)
+![GitHub](https://img.shields.io/github/license/hotshotz79/NX-Game-Icon-Customizer)
+![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)
+
 ![Banner](https://user-images.githubusercontent.com/7006684/110041558-44145a80-7d12-11eb-9bec-213305e9ed5a.png)
 <p align="center"><b>Nintendo Switch - Game Icon Customizer</b></p>
 <p align="center">An application to simplify the method of changing game icons in Atmosphere</p>
@@ -20,7 +26,7 @@ With the introduction of [Sys-Tweak](https://gbatemp.net/threads/custom-game-ico
 
 See **Feature** list below and make sure to check out the [Wiki](https://github.com/hotshotz79/NX-Game-Icon-Customizer/wiki) page for more details and **FAQ**.
 
-![MainSplash](https://user-images.githubusercontent.com/7006684/111810749-bbb6bd80-88ac-11eb-9b97-3701279d0b37.PNG)
+![MainSplash](https://user-images.githubusercontent.com/7006684/113371802-319f3800-9335-11eb-9d6f-e4c472c52063.PNG)
 ![Auto](https://user-images.githubusercontent.com/7006684/113366927-a1f38c80-9328-11eb-91ae-30513524a913.PNG)
 
 ____
