@@ -21,6 +21,7 @@ With the introduction of [Sys-Tweak](https://gbatemp.net/threads/custom-game-ico
 See **Feature** list below and make sure to check out the [Wiki](https://github.com/hotshotz79/NX-Game-Icon-Customizer/wiki) page for more details and **FAQ**.
 
 ![MainSplash](https://user-images.githubusercontent.com/7006684/111810749-bbb6bd80-88ac-11eb-9b97-3701279d0b37.PNG)
+![Auto](https://user-images.githubusercontent.com/7006684/113366927-a1f38c80-9328-11eb-91ae-30513524a913.PNG)
 
 ____
 
@@ -28,6 +29,8 @@ ____
 
 * Select from over 1000+ pre-made custom icons from [Hotshotz](https://github.com/hotshotz79/NX-Custom-Game-Icons) and [SodaSoba](https://github.com/sodasoba1/NSW-Custom-Game-Icons) Icon Repository
 * Or create your own icons for any game or homebrew
+* Auto Match Icons
+* Custom Metadata (Name/Author/Version)
 * Preview as you add new icons in different theme styles
 * Look up TItle ID or enter your own
 * Transfer all queued icons in a single click via MTP or FTP
@@ -51,5 +54,7 @@ ____
 * [p-sam](https://github.com/p-sam/switch-sys-tweak) - Sys-Tweak developer, this tool wouldn't exist without this module
 * [SodaSoba](https://github.com/sodasoba1/NSW-Custom-Game-Icons) - For creating a huge Icon Repository and for all the testing/feedback pre-release
 * [Blawar](https://github.com/blawar/titledb) - Title ID JSON provided from TitleDB github
-* [GBATemp](https://gbatemp.net/threads/custom-game-icons-tutorial-and-sharing-hub-no-forwarders.574675/) Community
+* [cucholix](https://gbatemp.net/threads/custom-game-icons-tutorial-and-sharing-hub-no-forwarders.574675/) - For sharing sys-tweak and providing guide
+* [HamletDuFromage](https://github.com/HamletDuFromage/nx-titles-list-dumper) - For creating NX Titles List Dumper on request
 * [/r/NXThemes](https://old.reddit.com/r/NXThemes/) Community
+* Icons made by Pixel perfect from www.flaticon.com
