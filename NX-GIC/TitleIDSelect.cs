@@ -13,6 +13,7 @@ namespace NX_GIC
     public partial class TitleIDSelect : Form
     {
         public string selectedID = "";
+        public string selectedName = "";
         public TitleIDSelect(DataTable dtTids)
         {
             InitializeComponent();
@@ -24,22 +25,30 @@ namespace NX_GIC
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             //grab [e.RowIndex][1]
-            MakeSelection(dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString());
+            MakeSelection(dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString(),
+                dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
         }
 
-        private void MakeSelection(string id)
+        private void MakeSelection(string id, string name)
         {
             selectedID = id;
+            if (name.Length < 200)
+                selectedName = name;
+            else
+                selectedName = name.Substring(0, 200);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             //OK button
+            MakeSelection(dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value.ToString(),
+                dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[1].Value.ToString());
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            MakeSelection(dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value.ToString());
+            MakeSelection(dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value.ToString(),
+                dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[1].Value.ToString());
         }
 
         private void TitleIDSelect_KeyDown(object sender, KeyEventArgs e)

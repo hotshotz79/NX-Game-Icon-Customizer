@@ -148,4 +148,28 @@
   <data name="image-file" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\image-file.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="vertical_bg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\vertical-bg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon-add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_all" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon-all.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_auto" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon-auto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_csv" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon-csv.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_gallery" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon-gallery.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_scan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon-scan.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_transfer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon-transfer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

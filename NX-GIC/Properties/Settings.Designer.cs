@@ -12,7 +12,7 @@ namespace NX_GIC.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -61,7 +61,7 @@ namespace NX_GIC.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://raw.githubusercontent.com/blawar/titledb/master/titles.US.en.json")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://raw.githubusercontent.com/blawar/titledb/master/US.en.json")]
         public string TitleDB {
             get {
                 return ((string)(this["TitleDB"]));
@@ -92,6 +92,54 @@ namespace NX_GIC.Properties {
             }
             set {
                 this["csvInstalled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FTPUser {
+            get {
+                return ((string)(this["FTPUser"]));
+            }
+            set {
+                this["FTPUser"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FTPPass {
+            get {
+                return ((string)(this["FTPPass"]));
+            }
+            set {
+                this["FTPPass"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
+        public int FTPPort {
+            get {
+                return ((int)(this["FTPPort"]));
+            }
+            set {
+                this["FTPPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SGDBapi {
+            get {
+                return ((string)(this["SGDBapi"]));
+            }
+            set {
+                this["SGDBapi"] = value;
             }
         }
     }

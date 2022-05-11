@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NX_GIC</RootNamespace>
     <AssemblyName>NX-Game Icon Customizer</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
@@ -41,9 +41,8 @@
     <Reference Include="MediaDevices, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MediaDevices.1.8.0\lib\net45\MediaDevices.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Octokit, Version=0.40.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Octokit.0.40.0\lib\net45\Octokit.dll</HintPath>
@@ -178,6 +177,14 @@
     <None Include="Resources\plus.png" />
     <None Include="Resources\remove.png" />
     <None Include="Resources\image-file.png" />
+    <None Include="Resources\vertical-bg.png" />
+    <None Include="Resources\icon-scan.png" />
+    <None Include="Resources\icon-gallery.png" />
+    <None Include="Resources\icon-auto.png" />
+    <None Include="Resources\icon-all.png" />
+    <None Include="Resources\icon-csv.png" />
+    <None Include="Resources\icon-add.png" />
+    <None Include="Resources\icon-transfer.png" />
     <Content Include="switch-cartridge-1698286-1456469.ico" />
     <None Include="Images\Vertical.jpg" />
     <None Include="Images\Default.jpg" />

@@ -18,7 +18,11 @@ namespace NX_GIC
             textBox1.Text = Properties.Settings.Default.GitHubs.Replace(";", "\r\n");
             textBox2.Text = Properties.Settings.Default.TitleDB;
             txtSwitchIP.Text = Properties.Settings.Default.IPAddress;
+            numPort.Value = Properties.Settings.Default.FTPPort;
+            txtUser.Text = Properties.Settings.Default.FTPUser;
+            txtPass.Text = Properties.Settings.Default.FTPPass;
             txtCsv.Text = Properties.Settings.Default.csvInstalled;
+            txtAPI.Text = Properties.Settings.Default.SGDBapi;
             if (txtCsv.Text.Length > 0)
                 btnDelCsvPath.Enabled = true;
         }
@@ -28,7 +32,11 @@ namespace NX_GIC
             Properties.Settings.Default.GitHubs = textBox1.Text.Replace("\r\n", ";");
             Properties.Settings.Default.TitleDB = textBox2.Text;
             Properties.Settings.Default.IPAddress = txtSwitchIP.Text;
+            Properties.Settings.Default.FTPPort = Convert.ToInt32(numPort.Value);
+            Properties.Settings.Default.FTPUser = txtUser.Text;
+            Properties.Settings.Default.FTPPass = txtPass.Text;
             Properties.Settings.Default.csvInstalled = txtCsv.Text;
+            Properties.Settings.Default.SGDBapi = txtAPI.Text;
             Properties.Settings.Default.Save();
             this.Close();
         }

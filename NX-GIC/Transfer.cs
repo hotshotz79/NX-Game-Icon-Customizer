@@ -88,10 +88,13 @@ namespace NX_GIC
             {
                 try
                 {
-                    Console.WriteLine(Properties.Settings.Default.IPAddress);
+
                     sessionOptions.HostName = Properties.Settings.Default.IPAddress;
                     // Connect
-                    session.Open(sessionOptions);
+                    if (Properties.Settings.Default.FTPUser == "")
+                        session.Open(blankSession);
+                    else
+                        session.Open(sessionOptions);
                     // Upload
                     session.PutFilesToDirectory(sourcePath, "/atmosphere/contents").Check();
                     statusSuccess = true;
@@ -116,7 +119,16 @@ namespace NX_GIC
         {
             Protocol = Protocol.Ftp,
             HostName = Properties.Settings.Default.IPAddress,
-            PortNumber = 5000,
+            PortNumber = Properties.Settings.Default.FTPPort,
+            UserName = Properties.Settings.Default.FTPUser,
+            Password = Properties.Settings.Default.FTPPass
+        };
+
+        SessionOptions blankSession = new SessionOptions
+        {
+            Protocol = Protocol.Ftp,
+            HostName = Properties.Settings.Default.IPAddress,
+            PortNumber = Properties.Settings.Default.FTPPort,
             UserName = " ",
             Password = "",
         };

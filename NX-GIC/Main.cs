@@ -16,7 +16,7 @@ namespace NX_GIC
 {
     public partial class Main : Form
     {
-        string localVer = "1.3.0";
+        string localVer = "1.4.0";
 
         string path = Directory.GetCurrentDirectory();
         string selectedPath = "";
@@ -202,7 +202,10 @@ namespace NX_GIC
 
             //Check updates and download icons from Github
             if (!offlineMode)
+            {
+                MessageBox.Show("Now downloading from GitHub Repo... this can take a few minutes", "Note", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 await DownloadFromGitHubRepo();
+            }
 
             //Get list of all existing folders
             string[] subdirectoryEntries = Directory.GetDirectories(path);
@@ -309,6 +312,9 @@ namespace NX_GIC
         //When a picture is double clicked
         void iconClicked(object sender, EventArgs e)
         {
+            //if via Google Search
+                //Do this
+            //else
             PictureBox pb = (PictureBox)sender;
 
             string copyPath = pb.ImageLocation.ToString();
@@ -354,8 +360,9 @@ namespace NX_GIC
                 DirectoryInfo dir_info = new DirectoryInfo(subdirectoryEntries[x]);
                 string directory = dir_info.Name;
                 //Ignore folders starting with . (i.e. .git) and exclude Themes folder
-                if (directory.Substring(0, 1) != "." &&
-                    !directory.ToUpper().Contains("THEME"))
+                //if (directory.Substring(0, 1) != "." &&
+                    //!directory.ToUpper().Contains("THEME"))
+                if (directory.Contains("Default") || directory.Contains("Horizontal") || directory.Contains("Vertical"))
                     cmbSubfolders.Items.Add(directory);
             }
 
@@ -638,7 +645,7 @@ namespace NX_GIC
 
         private void tutorialToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/sodasoba1/NSW-Custom-Game-Icons/blob/main/README.md");
+            System.Diagnostics.Process.Start("https://sodasoba1.github.io/NSW-Custom-Game-Icons/");
         }
 
         public bool csvCheck()
@@ -659,14 +666,11 @@ namespace NX_GIC
                     //If selected csv was in the previous saved path, do nothing
                     if (ofdCsv.FileName != csvPath)
                     {
-                        //Delete existing (outdated) titles file
-                        if (File.Exists(path + @"\titles.csv"))
-                            File.Delete(path + @"\titles.csv");
                         //Copy where ever the file was found and save under nxGIC directory
-                        File.Copy(ofdCsv.FileName, path + @"\titles.csv");
+                        File.Copy(ofdCsv.FileName, path + @"\titles" + DateTime.Now.ToString("MMddyyyy_HHmmss") + ".csv");
                     }
-                    Properties.Settings.Default.csvInstalled = path + @"\" + ofdCsv.SafeFileName;
-                    csvPath = path + @"\" + ofdCsv.SafeFileName;
+                    Properties.Settings.Default.csvInstalled = path + @"\titles" + DateTime.Now.ToString("MMddyyyy_HHmmss") + ".csv";
+                    csvPath = path + @"\titles" + DateTime.Now.ToString("MMddyyyy_HHmmss") + ".csv";
                     Properties.Settings.Default.Save();
                     return true;
                 }
@@ -682,6 +686,7 @@ namespace NX_GIC
         }
         public void csvLoad()
         {
+            csvPath = Properties.Settings.Default.csvInstalled;
             dtCSV.Clear();
             dtCSV = new DataTable();
             using (StreamReader sr = new StreamReader(csvPath))
@@ -694,12 +699,15 @@ namespace NX_GIC
                 while (!sr.EndOfStream)
                 {
                     string[] rows = sr.ReadLine().Split('|');
-                    DataRow dr = dtCSV.NewRow();
-                    for (int i = 0; i < headers.Length; i++)
+                    if (rows[0].ToString() != "")
                     {
-                        dr[i] = rows[i];
+                        DataRow dr = dtCSV.NewRow();
+                        for (int i = 0; i < headers.Length; i++)
+                        {
+                            dr[i] = rows[i];
+                        }
+                        dtCSV.Rows.Add(dr);
                     }
-                    dtCSV.Rows.Add(dr);
                 }
             }
             dgvInstalled.DataSource = null;
@@ -792,8 +800,11 @@ namespace NX_GIC
                     DirectoryInfo dir_info = new DirectoryInfo(subdirectoryEntries[x]);
                     string directory = dir_info.Name;
                     //Ignore folders starting with . (i.e. .git) and exclude Themes folder
-                    if (directory.Substring(0, 1) != "." &&
-                        !directory.ToUpper().Contains("THEME"))
+                    //if (directory.Substring(0, 1) != "." &&
+                    //    !directory.ToUpper().Contains("THEME"))
+                    //    cmbAutoStyle.Items.Add(directory);
+
+                    if (directory.Contains("Default") || directory.Contains("Horizontal") || directory.Contains("Vertical"))
                         cmbAutoStyle.Items.Add(directory);
                 }
             }
@@ -959,7 +970,7 @@ namespace NX_GIC
                 using (var clientWeb = new WebClient())
                 {
                     clientWeb.Headers.Add("User-Agent: Other");
-                    clientWeb.DownloadFile("https://github.com/HamletDuFromage/nx-titles-list-dumper/releases/download/1.0.1/nx-titles-list-dumper.nro", 
+                    clientWeb.DownloadFile("https://github.com/HamletDuFromage/nx-titles-list-dumper/releases/download/1.0.2/nx-titles-list-dumper.nro", 
                         "nx-titles-list-dumper.nro");
                 }
 
@@ -970,9 +981,13 @@ namespace NX_GIC
                     {
                         sessionOptions.HostName = Properties.Settings.Default.IPAddress;
                         // Connect
-                        session.Open(sessionOptions);
+                        if (Properties.Settings.Default.FTPUser == "")
+                            session.Open(blankSession);
+                        else
+                            session.Open(sessionOptions);
                         // Upload
-                        session.PutFilesToDirectory(path + "nx-titles-list-dumper.nro", "/switch").Check();
+                        Console.WriteLine(path+@"\nx-titles-list-dumper.nro");
+                        session.PutFileToDirectory(path + @"\nx-titles-list-dumper.nro", "/switch/",false); //.Check();
                         statusSuccess = true;
                     }
                     catch (Exception err)
@@ -989,47 +1004,7 @@ namespace NX_GIC
 
                     if (dlResult == DialogResult.Yes)
                     {
-                        nroResult = MessageBox.Show("This function will automatically download the dumped titles.csv from your Switch via FTP" +
-                           "\n\nPlease perform the following steps:" +
-                           "\n1. On your Switch, run NX Titles List Dumper (NRO)" +
-                           "\n2. Press (A) button to generate the csv" +
-                           "\n3. Close NRO and run FTP Client on your Switch" +
-                           "\n4. Click [OK]",
-                           "Download & Retrieve CSV", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-
-                        if (nroResult == DialogResult.OK)
-                        {
-                            Cursor.Current = Cursors.WaitCursor;
-                            using (Session session = new Session())
-                            {
-                                try
-                                {
-                                    sessionOptions.HostName = Properties.Settings.Default.IPAddress;
-                                    // Connect
-                                    session.Open(sessionOptions);
-                                    // Upload
-                                    session.GetFiles("/titles.csv", path, false);
-                                    statusSuccess = true;
-                                }
-                                catch (Exception err)
-                                {
-                                    statusSuccess = false;
-                                    Cursor.Current = Cursors.Default;
-                                    MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-                            }
-
-                            if (statusSuccess)
-                            {
-                                Properties.Settings.Default.csvInstalled = path + @"\titles.csv";
-                                csvPath = path + @"\titles.csv";
-                                Properties.Settings.Default.Save();
-
-                                csvLoad();
-                            }
-                            Cursor.Current = Cursors.Default;
-                            MessageBox.Show("CSV Locked and Loaded", "Completed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
+                        ftpPullCSV();
                     }
                 }
             }
@@ -1039,14 +1014,81 @@ namespace NX_GIC
             }
         }
 
+        private void ftpPullCSV()
+        {
+            DialogResult csvPull = MessageBox.Show("This function will automatically download the dumped titles.csv from your Switch via FTP" +
+                           "\n\nPlease perform the following steps:" +
+                           "\n1. On your Switch, run NX Titles List Dumper (NRO)" +
+                           "\n2. Press (A) button to generate the csv" +
+                           "\n3. Close NRO and run FTP Client on your Switch" +
+                           "\n4. Confirm NX GIC IP under settings (" + Properties.Settings.Default.IPAddress +") matches Switch's IP" + 
+                           "\n5. Click [OK]",
+                           "Download & Retrieve CSV", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            bool statusSuccess = false;
+            if (csvPull == DialogResult.OK)
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                using (Session session = new Session())
+                {
+                    try
+                    {
+                        sessionOptions.HostName = Properties.Settings.Default.IPAddress;
+                        // Connect
+                        if (Properties.Settings.Default.FTPUser == "")
+                            session.Open(blankSession);
+                        else
+                            session.Open(sessionOptions);
+                        // Upload
+                        session.GetFileToDirectory("/titles.csv", path, false);
+                        // Add timestamp to csv file
+                        FileInfo fi = new FileInfo(path+@"\titles.csv");
+                        fi.MoveTo(path+@"/titles"+ DateTime.Now.ToString("MMddyyyy_HHmmss") + ".csv");
+                        File.Delete(path+@"/titles.csv");
+                        statusSuccess = true;
+                    }
+                    catch (Exception err)
+                    {
+                        statusSuccess = false;
+                        Cursor.Current = Cursors.Default;
+                        MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+
+                if (statusSuccess)
+                {
+                    Properties.Settings.Default.csvInstalled = path + @"\titles" + DateTime.Now.ToString("MMddyyyy_HHmmss") + ".csv";
+                    csvPath = path + @"\titles" + DateTime.Now.ToString("MMddyyyy_HHmmss") + ".csv";
+                    Properties.Settings.Default.Save();
+
+                    csvLoad();
+                }
+                Cursor.Current = Cursors.Default;
+                MessageBox.Show("CSV Locked and Loaded", "Completed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
         // Setup FTP session options
         SessionOptions sessionOptions = new SessionOptions
         {
             Protocol = Protocol.Ftp,
             HostName = Properties.Settings.Default.IPAddress,
-            PortNumber = 5000,
+            PortNumber = Properties.Settings.Default.FTPPort,
+            UserName = Properties.Settings.Default.FTPUser,
+            Password = Properties.Settings.Default.FTPPass,
+        };
+
+        SessionOptions blankSession = new SessionOptions
+        {
+            Protocol = Protocol.Ftp,
+            HostName = Properties.Settings.Default.IPAddress,
+            PortNumber = Properties.Settings.Default.FTPPort,
             UserName = " ",
             Password = "",
         };
+
+        private void downloadTitlesCSVFTPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ftpPullCSV();
+        }
     }
 }

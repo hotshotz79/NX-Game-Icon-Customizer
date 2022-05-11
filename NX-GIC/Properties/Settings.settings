@@ -12,12 +12,24 @@
       <Value Profile="(Default)">1.0</Value>
     </Setting>
     <Setting Name="TitleDB" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://raw.githubusercontent.com/blawar/titledb/master/titles.US.en.json</Value>
+      <Value Profile="(Default)">https://raw.githubusercontent.com/blawar/titledb/master/US.en.json</Value>
     </Setting>
     <Setting Name="OfflineStatus" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="csvInstalled" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FTPUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FTPPass" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FTPPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5000</Value>
+    </Setting>
+    <Setting Name="SGDBapi" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>
